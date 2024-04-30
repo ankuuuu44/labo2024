@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>新規登録画面</title>
+</head>
+
+<body background="image/checkgreen.jpg">
+
+<div align="center">
+<br><br><br>
+<img src="image/logo_register.png"><br>
+
+<table border="0"><tr><td>
+<div align="right">
+<form action = "confirm.php" method="post">
+      **uid**<br><b>※半角数字で入力して下さい。</b><br><input type="text" name="uid"><br><br>
+　　　**Name**<br><b>※半角英数字で入力して下さい。</b><br><input type="text" name="Name"><br><br>
+　　　**Pass**<br><b>※6～20文字で入力して下さい。</b><br><input type="password" name="Pass" size="30"><br><br>
+　　　**Pass(確認用)**<br><input type="password" name="Pass2" size="30"><br><br>
+　　　**メールアドレス**<br><input type="text" name="Mail" size="50"><br><br>
+　　  **グループID**<br><select name ="GID">
+　　  			 <option value="3">Group3</option>
+　　　			 <option value="4">Group4</option>
+    　　　	     <option value="5">Group5</option>
+　　　			 </select><br><br>
+　　　<input type="submit" name="exe" value="確認">
+　　　<input type="reset" name="exe" value="リセット">
+</form>
+</div>
+</td></tr></table>
+
+<a href="../test.php">戻る</a><br>
+
+</div>
+</body>
+</html>
