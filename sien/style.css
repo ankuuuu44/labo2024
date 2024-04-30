@@ -1,0 +1,68 @@
+@charset "utf-8";
+
+.titleframe{
+    background-color:hwb(240 77% 0% / 0.201);
+    width: auto;
+    height: auto;
+}
+
+.container{
+    display: flex;  /*要素並列になる*/
+}
+
+.search-container{
+    display: block;
+    margin-right: 20px;
+}
+
+.user-list{
+    display: none;
+}
+
+.user-list.active{
+    display: inline-block;
+}
+
+.ques_search,.student_search{
+    display: none;  /*ユーザーがボタンを押したときにのみ表示するようにするため*/
+}
+
+.ques_search.active, .student_search.active{
+    display: block;
+}
+
+
+
+
+#canvas-container-TF{
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+    margin-left: 20px;
+}
+
+#canvasTF {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+
+#canvasBar {
+    max-width: 150px;
+    max-height: 300px;
+}
+
+
+
+.user-container{
+    background-color: aliceblue;
+    width: 250px;
+    height: 175px;
+    max-height:500px;
+    overflow-y:scroll;
+    position: relative;
+    
+}
+
+
+
