@@ -73,16 +73,12 @@ jQuery(window).on("load",function(){
 jQuery(document).ready(function(){
     console.log("#Timerangeの関数内です．");
     jQuery("#TimeRangeid").change(function(){
-        if(jQuery("#TimeRangeid").val() === "range"){
-            //jQuery("#Timesearch_minmax").removeClass("hide");
+        if(jQuery(this).val() === "range"){
             jQuery("#Timesearch_minmax").show();
-            console.log("this.val === range");
+            jQuery("#Timesearchid").hide();
         }else{
-            //aaa
-            //二度目の編集
-            //ちゃんと編集できているかないか確認
-            //jQuery("#Timesearch_minmax").addClass("hide");
             jQuery("#Timesearch_minmax").hide();
+            jQuery("#Timesearchid").show();
         }
     });
 });

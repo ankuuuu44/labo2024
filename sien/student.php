@@ -2388,9 +2388,9 @@ ChangeTab('tab1');
                         <option value = "below">以下</option>
                         <option value = "range">範囲</option>
                     </select>
-                    <input type="text" name = "Timesearch">
+                    <input type="text" name = "Timesearch" id = "Timesearchid">
                     <div id ="Timesearch_minmax" class = "hide">
-                        <input type="text" name = "Timesearch-min">～<input type="text" name="Timesearch-max"><br>
+                        <input type="text" name = "Timesearch-min">～<input type="text" name="Timesearch-max">
                     </div>
                 <input type="submit" id = "searchButton" value="検索">
                 <button class="closeButton">閉じる</button>
