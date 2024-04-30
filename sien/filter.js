@@ -80,6 +80,7 @@ jQuery(document).ready(function(){
         }else{
             //aaa
             //二度目の編集
+            //ちゃんと編集できているかないか確認
             //jQuery("#Timesearch_minmax").addClass("hide");
             jQuery("#Timesearch_minmax").hide();
         }
