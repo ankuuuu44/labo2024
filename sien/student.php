@@ -2404,6 +2404,10 @@ ChangeTab('tab1');
                     <input type = "checkbox" name = "Understandlabel[]" value = "2">かなり迷った<br>
                     <input type = "checkbox" name = "Understandlabel[]" value = "1">誤って決定ボタンを押した<br>
                 </label>
+                <br>
+                <b>全体的な迷い</b>
+                <input type = "radio" name ="Check-all" value = "1">あり <input type="radio" name = "Check-all" value = "0">なし<br>
+
 
                 <input type="submit" id = "searchButton" value="検索">
                 <button class="closeButton">閉じる</button>
@@ -2556,6 +2560,17 @@ ChangeTab('tab1');
         $tmpsearchUnderstand.= $searchUnderstand;
         $tmpsearchUnderstand.= ")";
         $sqlsearch.= $tmpsearchUnderstand;
+    }else{
+        //SQLに何も追加しない
+    }
+    //全体的に迷ったの検索
+    if(isset($_POST["Check-all"])){
+        $searchCheckall = $_POST["Check-all"];
+        $tmpsearchCheckall = " AND linedata.check =";
+        $tmpsearchCheckall.= $searchCheckall;
+        $sqlsearch.= $tmpsearchCheckall;
+    }else{
+        //SQLに何も追加しない
     }
 
     echo "<br>";
