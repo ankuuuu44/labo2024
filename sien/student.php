@@ -961,6 +961,7 @@
 
         #modal-main {
         position: relative;
+        text-align: center;
         background: #fff;
         width: 80%;
         height: 80%;
@@ -1014,6 +1015,10 @@
             position: absolute;
             left:10;
             bottom: 10;
+        }
+        .checklabel{
+            display: inline-block;
+            text-align: left;
         }
 
 
@@ -2363,7 +2368,7 @@ ChangeTab('tab1');
     <br>
     <!-- モーダルウィンドウの背景 -->
     <div id="modal-bg">
-    <!-- モーダルウィンドウの本体 -->
+        <!-- モーダルウィンドウの本体 -->
         <div id="modal-main">
             <h2>検索ウィンドウ</h2>
             <form action="student.php" method="post">
@@ -2388,10 +2393,17 @@ ChangeTab('tab1');
                         <option value = "below">以下</option>
                         <option value = "range">範囲</option>
                     </select>
-                    <input type="text" name = "Timesearch" id = "Timesearchid">
+                    <input type="text" name = "Timesearch" id = "Timesearchid"><br>
                     <div id ="Timesearch_minmax" class = "hide">
                         <input type="text" name = "Timesearch-min">～<input type="text" name="Timesearch-max">
                     </div>
+                迷い度<br>
+                <label class ="checklabel">
+                    <input type = "checkbox" name = "Understandlabel[]" value = "4">ほとんど迷わなかった<br>
+                    <input type = "checkbox" name = "Understandlabel[]" value = "3">少し迷った<br>
+                    <input type = "checkbox" name = "Understandlabel[]" value = "2">かなり迷った<br>
+                    <input type = "checkbox" name = "Understandlabel[]" value = "1">誤って決定ボタンを押した<br>
+                </label>
                 <input type="submit" id = "searchButton" value="検索">
                 <button class="closeButton">閉じる</button>
             </form>
@@ -2534,6 +2546,15 @@ ChangeTab('tab1');
         //SQLに何も追加しない
         //この条件に入るときはTimesearchが空でかつTimesearch-minとTimesearch-maxも空であるときのみ
         //つまり時間検索が行われていない時なので，なにもしなくていい
+    }
+    //迷い度検索
+    if(isset($_POST["Understandlabel"])){
+        $searchUnderstandarray = $_POST["Understandlabel"];
+        $searchUnderstand = implode(",",$searchUnderstandarray);
+        $tmpsearchUnderstand = " AND Understand in(";
+        $tmpsearchUnderstand.= $searchUnderstand;
+        $tmpsearchUnderstand.= ")";
+        $sqlsearch.= $tmpsearchUnderstand;
     }
 
     echo "<br>";
