@@ -2405,6 +2405,8 @@ ChangeTab('tab1');
                     <input type = "checkbox" name = "Understandlabel[]" value = "1">誤って決定ボタンを押した<br>
                 </label>
                 <br>
+                <b>単語の迷い</b>
+                <input type="radio" name = "hesitateword" value = "1">あり <input type="radio" name = "hesitateword" value = "0">なし<br>
                 <b>全体的な迷い</b>
                 <input type = "radio" name ="Check-all" value = "1">あり <input type="radio" name = "Check-all" value = "0">なし<br>
 
@@ -2560,6 +2562,17 @@ ChangeTab('tab1');
         $tmpsearchUnderstand.= $searchUnderstand;
         $tmpsearchUnderstand.= ")";
         $sqlsearch.= $tmpsearchUnderstand;
+    }else{
+        //SQLに何も追加しない
+    }
+    //単語単位の迷い検索
+    if(isset($_POST["hesitateword"])){
+        if($_POST["hesitateword"] == "1"){
+            $tmpsearchhesitate = " AND linedata.hesitate !=''";
+        }else{
+            $tmpsearchhesitate = " AND linedata.hesitate =''";
+        }
+        $sqlsearch.= $tmpsearchhesitate;
     }else{
         //SQLに何も追加しない
     }

@@ -29,7 +29,6 @@
             $info['average_time'] = $info['total_time'] / $info['row_count'];
             echo "UID: $user ,合計時間: {$info['total_time']} ,回数: {$info['row_count']}, 平均時間: {$info['average_time']} <br>";
         }
-
     ?>
 
 
