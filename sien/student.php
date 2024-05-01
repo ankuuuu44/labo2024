@@ -2372,22 +2372,22 @@ ChangeTab('tab1');
         <div id="modal-main">
             <h2>検索ウィンドウ</h2>
             <form action="student.php" method="post">
-                UID 
+                <b>UID</b> 
                     <select name="UIDrange">
                         <option value = "include">含む</option>
                         <option value = "not">以外</option>
                     </select>
                     <input type="text" name="UIDsearch" ><br>
 
-                WID 
+                <b>WID</b> 
                     <select name="WIDrange">
                         <option value = "include">含む</option>
                         <option value = "not">以外</option>
                     </select>
                     <input type="text" name="WIDsearch"><br>
 
-                正誤 <input type="radio" name = "TFsearch" value="1">正解　<input type="radio" name="TFsearch" value="0">不正解<br>
-                解答時間
+                <b>正誤</b> <input type="radio" name = "TFsearch" value="1">正解　<input type="radio" name="TFsearch" value="0">不正解<br>
+                <b>解答時間</b>
                     <select name="TimeRange" id = "TimeRangeid">
                         <option value = "above">以上</option>
                         <option value = "below">以下</option>
@@ -2397,13 +2397,14 @@ ChangeTab('tab1');
                     <div id ="Timesearch_minmax" class = "hide">
                         <input type="text" name = "Timesearch-min">～<input type="text" name="Timesearch-max">
                     </div>
-                迷い度<br>
+                <b>迷い度</b><br>
                 <label class ="checklabel">
                     <input type = "checkbox" name = "Understandlabel[]" value = "4">ほとんど迷わなかった<br>
                     <input type = "checkbox" name = "Understandlabel[]" value = "3">少し迷った<br>
                     <input type = "checkbox" name = "Understandlabel[]" value = "2">かなり迷った<br>
                     <input type = "checkbox" name = "Understandlabel[]" value = "1">誤って決定ボタンを押した<br>
                 </label>
+
                 <input type="submit" id = "searchButton" value="検索">
                 <button class="closeButton">閉じる</button>
             </form>
