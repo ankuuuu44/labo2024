@@ -35,7 +35,6 @@ jQuery(document).ready(function(){
     });
 
     jQuery("#bargraph").on("click",function(){
-        //ここに棒グラフを表示するプログラムを記述
         //新しくgraph.phpファイルを開いてそこに描画する
         window.open("graph.php","graph");
     })
@@ -54,6 +53,19 @@ jQuery(document).ready(function(){
         }
     });
 
+    //機械学習のモーダルウィンドウ
+    jQuery("#machineLearningbutton").on("click",function(){
+        //モーダルウィンドウ表示
+        jQuery("#modal-machineLearning").show();
+        jQuery(".hide").hide();
+    });
+
+    jQuery("#modal-machineLearning").click(function(e){
+        //クリックされた要素がモーダルウィンドウの本体でなければモーダルウィンドウを非表示に
+        if(!jQuery(e.target).closest("#machineLearning-main").length){
+            jQuery("#modal-machineLearning").hide();
+        }
+    });
 });
 
 //sum.phpのボタン
@@ -66,6 +78,14 @@ jQuery(window).on("load",function(){
         var val = $('[name=keycolumn]').val();
         console.log(val);
         */
+    });
+});
+
+
+jQuery(window).on("load",function(){
+    jQuery('#machineLearningcons').on("click",function(){
+        console.log("aaa");
+        window.open("machineLearningsample.php","machineLearning");
     });
 });
 //ここまで
