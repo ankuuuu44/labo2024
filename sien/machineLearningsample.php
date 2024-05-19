@@ -90,11 +90,12 @@
     <?php
         //Pythonに渡すプログラム
         /*
-        $pyScript = "php_machineLearning.py";
-        $cmd = array("py",$pyScript,escapeshellarg(json_encode($allresult)));
-        $cmdText = implode(" ",$cmd);
-        echo "Running command: " . $cmdText . "\n";
+        $pyscript = "php_machineLearning.py";
+        exec("py ".$pyscript, $output, $status);
+        echo "実行結果:".$output[0];
+        echo "結果:".$status;
         */
+        
         //exec("py", $output);
 
     ?>
