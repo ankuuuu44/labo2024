@@ -2492,9 +2492,9 @@ ChangeTab('tab1');
         <!-- モーダルウィンドウの本体 -->
         <div id="machineLearning-main">
             <h2>機械学習</h2>
-                <div class = "titleArea"><b>選択する特徴量</b></div>
-                <div class =  "checkboxArea">
-                        
+                <form action="machineLearningsample.php" method="post">
+                    <div class = "titleArea"><b>選択する特徴量</b></div>
+                    <div class =  "checkboxArea">
                         <label for="featuretime"><input type = "checkbox" id = "featuretime" name = "featureLabel[]" value = "1">解答時間</label>
                         <label for="featuredistance"><input type = "checkbox" id = "featuredistance" name = "featureLabel[]" value = "2">距離</label>
                         <label for="featurespeed"><input type = "checkbox" id ="featurespeed"  name = "featureLabel[]" value = "3">平均速度</label>
@@ -2535,11 +2535,11 @@ ChangeTab('tab1');
                         <label for="xUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "28">次回DragまでのX軸Uターン回数</label>
                         <label for="yUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "29">次回DragまでのY軸Uターン回数</label>
                         <label for="FromlastdropToanswerTime"><input type = "checkbox" name = "featureLabel[]" value = "30">最終dropから解答終了までの時間</label>
-                    
-                </div>
-                    
-                <input type="button" id="machineLearningcons" value="機械学習">
-                <button class="closeButton">閉じる</button>
+                    </div>
+                        
+                    <input type="button" id="machineLearningcons" value="機械学習">
+                    <button class="closeButton">閉じる</button>
+                </form>
         </div>
     </div>
 
