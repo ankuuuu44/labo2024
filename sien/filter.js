@@ -81,13 +81,14 @@ jQuery(window).on("load",function(){
     });
 });
 
-
+/*
 jQuery(window).on("load",function(){
     jQuery('#machineLearningcons').on("click",function(){
         console.log("aaa");
         window.open("machineLearningsample.php","machineLearning");
     });
 });
+*/
 //ここまで
 //
 jQuery(document).ready(function(){
