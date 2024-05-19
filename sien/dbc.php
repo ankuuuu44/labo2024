@@ -21,6 +21,6 @@ if(!$conn){
 
 //echo "データベース接続成功";
 
-return $conn
+return $conn;
 
 ?>

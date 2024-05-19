@@ -21,73 +21,52 @@
     </style>
 </head>
 <body>
-    ここは結果確認用のページです．
-    
-    <table class = "cons-table" border="1">
-        <tr>
-            <th>UID</th>
-            <th>合計時間</th>
-            <th>解答問題数</th>
-            <th>平均時間</th>
-        </tr>
-
-
+    ここは結果確認用のページです．<br>
     <?php
-        session_start();
-        $databasearray1 = $_SESSION['databasearray1'];
-        //print_r($databasearray1);
-
-        //合計を求めるプログラム
-        $totals = array();
-        foreach($databasearray1 as $data){
-            $user = $data['UID'];
-            if(!isset($totals[$user])){
-                $totals[$user] = [
-                    'total_time' => 0,
-                    'row_count' => 0
-                ];
-            }
-            $totals[$user]['total_time'] += $data['Time'];
-            $totals[$user]['row_count'] += 1;
-        }
-
-        foreach($totals as $user => $info){
-            $info['average_time'] = $info['total_time'] / $info['row_count'];
-            //echo "UID: $user ,合計時間: {$info['total_time']} ,回数: {$info['row_count']}, 平均時間: {$info['average_time']} <br>";
-            echo "<tr><td>{$user}</td><td>{$info['total_time']}</td><td>{$info['row_count']}</td><td>{$info['average_time']}</td></tr>";
-        }
+        require "dbc.php";
     ?>
-    </table>
-
-
-    <script>
-        var data_array = <?php echo json_encode($_SESSION['databasearray1']);?>;
-
-
-        var totals = {};
-        var n = 0;
-
-        data_array.forEach(function(data){
-            var user = data["UID"];
-            var timeoriginal = data["Time"];
-
-            var time = parseInt(timeoriginal,10);
-            if(!totals[user]){
-                totals[user] = {
-                    total_time : 0,
-                    row_count : 0
-                };
+    <?php
+        if(isset($_POST['featureLabel'])){
+            $featurevalue_sql = "SELECT UID,WID,Understand,";
+            $selectcolumn = implode(",", $_POST['featureLabel']);
+            $featurevalue_sql.= $selectcolumn." FROM featurevalue";
+            $featurevalue_res = mysqli_query($conn, $featurevalue_sql);
+            echo "選択した特徴量は".$selectcolumn."です<br>";
+            echo "生成したSQLは".$featurevalue_sql."です<br>";
+            if($featurevalue_res != false){
+                $featurevalue_res_numrows = mysqli_num_rows($featurevalue_res);
+                echo "抽出したデータ数は",$featurevalue_res_numrows;
             }
-            totals[user]['total_time'] += time;
-            totals[user]['row_count'] += 1;
 
-        })
+            //動的なテーブル生成
+            echo "<table class='tableclassname' border='1'>";
+            echo "<tr><th>UID</th><th>WID</th><th>Understand</th>";
+            foreach($_POST['featureLabel'] as $addcolumnname){
+                echo"<th>".$addcolumnname."</th>";
+            }
+            echo "</tr>";
+            //ここまで動的なテーブル生成
 
-        Object.keys(totals).forEach(function(user) {
-            totals[user]['average_time'] = totals[user]['total_time'] / totals[user]['row_count'];
-            console.log("UID:" + user + " ,合計時間:" + totals[user]['total_time'] + " ,回数:" + totals[user]['row_count'] + " ,平均時間:" + totals[user]['average_time'] + " <br>");
-        });
-    </script>
+            while($featurevalue_rows = $featurevalue_res -> fetch_assoc()){
+                //ここに$POST[featureLabel]に応じてカラム名を動的に変化させる．
+                echo "<tr><td>{$featurevalue_rows['UID']}</td>",
+                    "<td>{$featurevalue_rows['WID']}</td>",
+                    "<td>{$featurevalue_rows['Understand']}</td>";
+                foreach($_POST['featureLabel'] as $addcolumnname){
+                    echo "<td>{$featurevalue_rows[$addcolumnname]}</td>";
+                }
+                echo "</tr>";
+            } 
+            
+
+        }else{
+            echo "特徴量を指定してください．";
+        }
+        
+    ?>
+
+
+
 
 </body>
 </html>
