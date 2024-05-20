@@ -2,6 +2,7 @@
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <meta charset="UTF-8">
     <style type="text/css">
         .cons-table{
             width: 50%;
@@ -44,6 +45,7 @@
                 $featurevalue_res_numrows = mysqli_num_rows($featurevalue_res);
                 echo "抽出したデータ数は",$featurevalue_res_numrows;
             }
+            //カラム名のみ先にcsvに記述
             $fp = fopen('./pydata/test.csv', 'w');
             fputcsv($fp, explode(',', $column_name));
 
@@ -89,12 +91,24 @@
 
     <?php
         //Pythonに渡すプログラム
-        /*
+        
         $pyscript = "php_machineLearning.py";
         exec("py ".$pyscript, $output, $status);
-        echo "実行結果:".$output[0];
-        echo "結果:".$status;
-        */
+        echo "Python実行結果<br>";
+        for ($i = 0; $i < count($output); $i++) {
+            if($i != count($output)-1){
+                echo ($i+1)."回目:".round($output[$i],2)."%<br>";
+            }else{
+                echo "10分割交差検定の結果".round($output[$i],2)."%<br>";
+            }
+        }
+        if($status != 0){
+            echo "実行エラー";
+        }else{
+            echo "正常終了";
+        }
+
+        
         
         //exec("py", $output);
 

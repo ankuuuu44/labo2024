@@ -39,9 +39,10 @@ class Datamarge:
         sampledf_4 =self.classify_df[self.classify_df['Understand'] == 4].sample(n=samplerow,random_state = 0)
 
         self.classifydf = pd.concat([sampledf_2,sampledf_4])
-        print(self.classifydf)
+        #print(self.classifydf)
     
     def Classify(self):
+        count = 0
         tmpdf = self.classifydf
         tmpdf = tmpdf.drop(["UID","WID","Understand"],axis = 1)
         features = tmpdf.columns
@@ -61,10 +62,11 @@ class Datamarge:
             model.fit(train_x, train_y)
             pred = model.predict(test_x)
             f1 = f1_score(test_y, pred, average='macro')
-            print(f'{f1*100}%')
+            print(f1*100)
             self.f1scores.append(f1)
+            count += 1
         f1score = np.mean(self.f1scores)*100
-        print(f'{f1score}%')
+        print(f1score)
 
 def main():
     inputfilename = 'pydata/test.csv'
@@ -73,10 +75,12 @@ def main():
     return_df = datamarge.binary()
     datamarge.countUnderstand(return_df)
 
+    """
     print(datamarge.Understand1_count)
     print(datamarge.Understand2_count)
     print(datamarge.Understand3_count)
     print(datamarge.Understand4_count)
+    """
 
     datamarge.makingclassifydf()        #ここで迷い無しとありが1:1のデータセットができている．
     datamarge.Classify()
