@@ -105,7 +105,7 @@
     <?php
         //Pythonに渡すプログラム
         
-        $pyscript = "./a/php_machineLearning.py";
+        $pyscript = "./machineLearning/php_machineLearning.py";
         exec("py ".$pyscript, $output, $status);
         echo "<div class = 'content-b'>";
         echo "Python実行結果<br>";
