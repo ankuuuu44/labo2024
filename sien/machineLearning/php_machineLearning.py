@@ -9,7 +9,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, classificat
 import numpy as np
 
 
-class Datamarge:
+class Classify:
     def __init__(self,df):
         self.df = df
         self.Understand1_count = 0
@@ -18,6 +18,8 @@ class Datamarge:
         self.Understand4_count = 0
         self.classifydf = pd.DataFrame()
         self.f1scores = []
+        self.Featureimportances = []
+        self.result = {}
 
     def binary(self):
         self.classify_df=self.df[self.df['Understand'].isin([2,4])]    #2がかなり迷った4がほとんど迷わなかった
@@ -41,7 +43,7 @@ class Datamarge:
         self.classifydf = pd.concat([sampledf_2,sampledf_4])
         #print(self.classifydf)
     
-    def Classify(self):
+    def RandomForestClassify(self):
         count = 0
         tmpdf = self.classifydf
         tmpdf = tmpdf.drop(["UID","WID","Understand"],axis = 1)
@@ -61,8 +63,15 @@ class Datamarge:
             model = RandomForestClassifier(n_estimators=100, random_state=0)
             model.fit(train_x, train_y)
             pred = model.predict(test_x)
+            Feature_importances = model.feature_importances_
+            indices = np.argsort(Feature_importances)[::-1]
+
+
             f1 = f1_score(test_y, pred, average='macro')
-            print(f1*100)
+            print('{:.2f}'.format(f1*100))
+            for i in range(len(features)):
+                print(str(i+1) + " "+ str(features[indices[i]]) + " " + '{:.2f}'.format(Feature_importances[indices[i]]))
+
             self.f1scores.append(f1)
             count += 1
         f1score = np.mean(self.f1scores)*100
@@ -71,7 +80,7 @@ class Datamarge:
 def main():
     inputfilename = 'pydata/test.csv'
     df = pd.read_csv(inputfilename)
-    datamarge=Datamarge(df)
+    datamarge=Classify(df)
     return_df = datamarge.binary()
     datamarge.countUnderstand(return_df)
 
@@ -83,7 +92,7 @@ def main():
     """
 
     datamarge.makingclassifydf()        #ここで迷い無しとありが1:1のデータセットができている．
-    datamarge.Classify()
+    datamarge.RandomForestClassify()
     
 
     """

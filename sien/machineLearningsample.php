@@ -110,10 +110,19 @@
         echo "<div class = 'content-b'>";
         echo "Python実行結果<br>";
         for ($i = 0; $i < count($output); $i++) {
-            if($i != count($output)-1){
-                echo ($i+1)."回目:".round($output[$i],2)."%<br>";
+            if($i%6 == 0){                              //php_machineLearning.pyの出力によってmodは変化する．
+                if($i/6 != 10){
+                    if($i/6 != 0){
+                        echo "-------------------------------------------<br>";
+                    }
+                    echo (($i/6) + 1)."回目F値:".$output[$i]."%<br>";
+                }else{
+                    echo "-------------------------------------------<br>";
+                    echo "10分割交差検定の結果".$output[$i]."%<br>";
+                }
+
             }else{
-                echo "10分割交差検定の結果".round($output[$i],2)."%<br>";
+                echo $output[$i]."<br>";
             }
         }
         if($status != 0){
