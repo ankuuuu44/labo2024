@@ -4,6 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="visualstyle.css" type="text/css" />  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
     ここは結果確認用のページです．<br>
@@ -21,6 +22,11 @@
             $column_name.= $selectcolumn;   //データベースの列名が入っている．
             $featurevalue_sql.= $column_name." FROM featurevalue";
             $featurevalue_res = mysqli_query($conn, $featurevalue_sql);
+            $_SESSION['recent_search'][] = $featurevalue_sql;
+            $recent_searches = array_slice($_SESSION['recent_search'], -5);
+            foreach($recent_searches as $query_search){
+                echo "保存されている検索条件は",$query_search,"です<br>";
+            }
 
 
             //グラフ表示用のSQL
@@ -28,6 +34,8 @@
             $graphvisual_res = mysqli_query($conn, $graphvisual_sql);
             echo "選択した特徴量は".$selectcolumn."です<br>";
             echo "生成したSQLは".$featurevalue_sql."です<br>";
+            $gettype = gettype($selectcolumn);
+            echo "gettypeは",$gettype;
 
             
             if($featurevalue_res != false){
@@ -102,20 +110,22 @@
         
     ?>
 
+    <div class="content-b">
     <?php
         //Pythonに渡すプログラム
         
         $pyscript = "./machineLearning/php_machineLearning.py";
+        $countF = 0;
         exec("py ".$pyscript, $output, $status);
-        echo "<div class = 'content-b'>";
         echo "Python実行結果<br>";
         for ($i = 0; $i < count($output); $i++) {
-            if($i%6 == 0){                              //php_machineLearning.pyの出力によってmodは変化する．
-                if($i/6 != 10){
-                    if($i/6 != 0){
+            if($i%(count($_POST['featureLabel'])+1) == 0){                              //php_machineLearning.pyの出力によってmodは変化する．
+                if($i/(count($_POST['featureLabel'])+1) != 10){
+                    if($i/(count($_POST['featureLabel'])+1) != 0){
                         echo "-------------------------------------------<br>";
                     }
-                    echo (($i/6) + 1)."回目F値:".$output[$i]."%<br>";
+                    echo ($countF + 1)."回目F値:".$output[$i]."%<br>";
+                    $countF += 1;
                 }else{
                     echo "-------------------------------------------<br>";
                     echo "10分割交差検定の結果".$output[$i]."%<br>";
@@ -130,14 +140,51 @@
         }else{
             echo "正常終了";
         }
-        echo "</div>";
-        echo "</div>";
 
-        
-        
+    ?>
+
+
+    <?php
+        //jsonからPHP配列に変換
+        $json_data = file_get_contents('./featurejson/featuredict.json');
+        $php_array = json_decode($json_data, true);
         //exec("py", $output);
 
     ?>
+    
+    <canvas id = "pieChart"></canvas>
+
+    <script type="module">
+        import jsondata from "./featurejson/featuredict.json" with {type: "json"};
+        console.log(jsondata);
+        function getRandomColor() {
+            const r = Math.round(Math.random() * 255);
+            const g = Math.round(Math.random() * 255);
+            const b = Math.round(Math.random() * 255);
+            return `rgb(${r},${g},${b})`;
+        }
+        // データの配列（仮の例）
+        const jsonData = Object.values(jsondata);
+        console.log("jsonData is" + jsonData);
+
+        // データのプロパティを設定
+        const dataset = [{
+            data: jsonData,
+            backgroundColor: jsonData.map(() => getRandomColor()), // ランダムな背景色を割り当てる
+        }];
+
+        let pieCharttag = document.getElementById("pieChart");
+        let pieconfig = new Chart (pieCharttag,{
+        type: "pie",  //typeでグラフの種類指定
+        data:{
+            labels: Object.keys(jsondata),
+            datasets: dataset
+        },
+        });
+    </script>
+    </div>
+    </div>
+    
 
 
 

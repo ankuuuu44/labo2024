@@ -1047,6 +1047,31 @@
             gap: 1px;
             text-align: left;
         }
+        .ui--table--search{
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .ui--table--search th{
+            padding: 10px;
+            background: #e9e9e9;
+            border: solid 1px #778ca3;
+        }
+
+        .ui--table--search td{
+            padding: 10px;
+            border: solid 1px #778ca3;
+        }
+
+        .itemgroup{
+            display: flex;
+            list-style: none;
+        }
+        .itemgroup li{
+            width: 25%;
+        }
 
     </style>
 
@@ -2494,49 +2519,99 @@ ChangeTab('tab1');
             <h2>機械学習</h2>
                 <form action="machineLearningsample.php" method="post" target="_blank">
                     <div class = "titleArea"><b>選択する特徴量</b></div>
-                    <div class =  "checkboxArea">
-                        <label for="featuretime"><input type = "checkbox" id = "featuretime" name = "featureLabel[]" value = "time">解答時間</label>
-                        <label for="featuredistance"><input type = "checkbox" id = "featuredistance" name = "featureLabel[]" value = "distance">距離</label>
-                        <label for="featurespeed"><input type = "checkbox" id ="featurespeed"  name = "featureLabel[]" value = "averageSpeed">平均速度</label>
-                        <label for="featuremaxspeed"><input type = "checkbox" id ="featuremaxspeed" name = "featureLabel[]" value = "maxSpeed">最大速度</label>
-                        <label for="featurethinkingtime"><input type = "checkbox" name = "featureLabel[]" value = "thinkingTime">第一ドラッグ前時間</label>
-                    
-                    
-                        <label for="answeringtime"><input type = "checkbox" name = "featureLabel[]" value = "answeringTime">第一ドロップ後を押すまでの時間</label>
-                        <label for="totalstoptime"><input type = "checkbox" name = "featureLabel[]" value = "totalStopTime">合計静止時間</label>
-                        <label for="maxstoptime"><input type = "checkbox" name = "featureLabel[]" value = "maxStopTime">最大静止時間</label>
-                        <label for="totalDDintervaltime"><input type = "checkbox" name = "featureLabel[]" value = "totalDDIntervalTime">合計DD間時間</label>
-                        <label for="maxDDintervaltime"><input type = "checkbox" name = "featureLabel[]" value = "maxDDIntervalTime">最大DD間時間</label>
-                    
-                    
-                        <label for="maxDDtime"><input type = "checkbox" name = "featureLabel[]" value = "maxDDTime">最大DD時間</label>
-                        <label for="minDDtime"><input type = "checkbox" name = "featureLabel[]" value = "minDDTime">最小DD時間</label>
-                        <label for="DDcount"><input type = "checkbox" name = "featureLabel[]" value = "DDCount">DD回数</label>
-                        <label for="groupingDDcount"><input type = "checkbox" name = "featureLabel[]" value = "groupingDDCount">グループ化中にDDした回数</label>
-                        <label for="groupingDDcountbool"><input type = "checkbox" name = "featureLabel[]" value = "groupingCountbool">グループ化回数</label>
-                    
-                    
-                        <label for="xUturncount"><input type = "checkbox" name = "featureLabel[]" value = "xUTurnCount">X軸Uターン回数</label>
-                        <label for="yUturncount"><input type = "checkbox" name = "featureLabel[]" value = "yUTurnCount">Y軸Uターン回数</label>
-                        <label for="register_move_count1"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count1">レジスタ移動回数1</label>
-                        <label for="register_move_count2"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count2">レジスタ移動回数2</label>
-                        <label for="register_move_count3"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count3">レジスタ移動回数3</label>
-                    
-                    
-                        <label for="register_move_count4"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count4">レジスタ移動回数4</label>
-                        <label for="register01count1"><input type = "checkbox" name = "featureLabel[]" value = "register01count1">レジスタ使用回数1</label>
-                        <label for="register01count2"><input type = "checkbox" name = "featureLabel[]" value = "register01count2">レジスタ使用回数2</label>
-                        <label for="register01count3"><input type = "checkbox" name = "featureLabel[]" value = "register01count3">レジスタ使用回数3</label>
-                        <label for="register01count4"><input type = "checkbox" name = "featureLabel[]" value = "register01count4">レジスタ使用回数4</label>
-                    
-                    
-                        <label for="registerDDcount"><input type = "checkbox" name = "featureLabel[]" value = "registerDDCount">レジスタ内DD回数</label>
-                        <label for="stopcount"><input type = "checkbox" name = "featureLabel[]" value = "stopcount">静止回数</label>
-                        <label for="xUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "xUTurnCountDD">次回DragまでのX軸Uターン回数</label>
-                        <label for="yUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "yUTurnCountDD">次回DragまでのY軸Uターン回数</label>
-                        <label for="FromlastdropToanswerTime"><input type = "checkbox" name = "featureLabel[]" value = "FromlastdropToanswerTime">最終dropから解答終了までの時間</label>
-                    </div>
-                        
+                    <!--<div class =  "checkboxArea">-->
+                    <table class="ui--table--search">
+                        <tr>
+                            <th>解答全体</th>
+                            <td>
+                                <ul class = "itemgroup">
+                                    <li><label for="featuretime"><input type = "checkbox" id = "featuretime" name = "featureLabel[]" value = "time">解答時間</label></li>
+                                    <li><label for="featuredistance"><input type = "checkbox" id = "featuredistance" name = "featureLabel[]" value = "distance">移動距離</label></li>
+                                    <li><label for="featurespeed"><input type = "checkbox" id ="featurespeed"  name = "featureLabel[]" value = "averageSpeed">平均速度</label></li>
+                                    <li><label for="featuremaxspeed"><input type = "checkbox" id ="featuremaxspeed" name = "featureLabel[]" value = "maxSpeed">最大速度</label></li>
+                                </ul>
+                                <ul class="itemgroup">
+                                    <li><label for="totalstoptime"><input type = "checkbox" name = "featureLabel[]" value = "totalStopTime">合計静止時間</label></li>
+                                    <li><label for="maxstoptime"><input type = "checkbox" name = "featureLabel[]" value = "maxStopTime">最大静止時間</label></li>
+
+                                </ul>
+                                <ul class="itemgroup">
+                                    <li><label for="stopcount"><input type = "checkbox" name = "featureLabel[]" value = "stopcount">静止回数</label></li>
+                                    <li><label for="FromlastdropToanswerTime"><input type = "checkbox" name = "featureLabel[]" value = "FromlastdropToanswerTime">最終dropから解答終了までの時間</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Uターン</th>
+                            <td>
+                                <ul class="itemgroup">
+                                    <li><label for="xUturncount"><input type = "checkbox" name = "featureLabel[]" value = "xUTurnCount">X軸Uターン回数</label></li>
+                                    <li><label for="yUturncount"><input type = "checkbox" name = "featureLabel[]" value = "yUTurnCount">Y軸Uターン回数</label></li>
+                                    <li><label for="xUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "xUTurnCountDD">次回DragまでのX軸Uターン回数</label></li>
+                                    <li><label for="yUturncountDD"><input type = "checkbox" name = "featureLabel[]" value = "yUTurnCountDD">次回DragまでのY軸Uターン回数</label></li>
+                        <tr>
+                            <th>第一ドラッグ</th>
+                            <td>
+                                <ul class = "itemgroup">
+                                    <li><label for="featurethinkingtime"><input type = "checkbox" name = "featureLabel[]" value = "thinkingTime">第一ドラッグ前時間</label></li>
+                                    <li><label for="answeringtime"><input type = "checkbox" name = "featureLabel[]" value = "answeringTime">第一ドロップ後から解答終了を押すまでの時間</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DD</th>
+                            <td>
+                                <ul class="itemgroup">
+                                    <li><label for="totalDDtime"><input type = "checkbox" name = "featureLabel[]" value = "totalDDTime">合計DD時間</label></li>
+                                    <li><label for="maxDDtime"><input type = "checkbox" name = "featureLabel[]" value = "maxDDTime">最大DD時間</label></li>
+                                    <li><label for="minDDtime"><input type = "checkbox" name = "featureLabel[]" value = "minDDTime">最小DD時間</label></li>
+                                    <li><label for="DDcount"><input type = "checkbox" name = "featureLabel[]" value = "DDCount">DD回数</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DD間</th>
+                            <td>
+                                <ul class="itemgroup">
+                                    <li><label for="maxDDintervaltime"><input type = "checkbox" name = "featureLabel[]" value = "maxDDIntervalTime">最大DD間時間</label></li>
+                                    <li><label for="minDDintervaltime"><input type = "checkbox" name = "featureLabel[]" value = "minDDIntervalTime">最小DD間時間</label></li>
+                                    <li><label for="totalDDintervaltime"><input type = "checkbox" name = "featureLabel[]" value = "totalDDIntervalTime">合計DD間時間</label></li>
+                                    <li><label for="registerDDcount"><input type = "checkbox" name = "featureLabel[]" value = "registerDDCount">レジスタ内DD回数</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>グループ化</th>
+                            <td>
+                                <ul class="itemgroup">
+                                    <li><label for="groupingDDcount"><input type = "checkbox" name = "featureLabel[]" value = "groupingDDCount">グループ化中にDDした回数</label></li>
+                                    <li><label for="groupingDDcountbool"><input type = "checkbox" name = "featureLabel[]" value = "groupingCountbool">グループ化回数</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>レジスタ</th>
+                            <td>
+                                <ul class="itemgroup">        
+                                    <li><label for="register_move_count1"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count1">レジスタ移動回数1</label></li>
+                                    <li><label for="register_move_count2"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count2">レジスタ移動回数2</label></li>
+                                    <li><label for="register_move_count3"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count3">レジスタ移動回数3</label></li>
+                                    <li><label for="register_move_count4"><input type = "checkbox" name = "featureLabel[]" value = "register_move_count4">レジスタ移動回数4</label></li>
+                                </ul>
+                                <ul class="itemgroup">
+                                    <li><label for="register01count1"><input type = "checkbox" name = "featureLabel[]" value = "register01count1">レジスタ使用回数1</label></li>
+                                    <li><label for="register01count2"><input type = "checkbox" name = "featureLabel[]" value = "register01count2">レジスタ使用回数2</label></li>
+                                    <li><label for="register01count3"><input type = "checkbox" name = "featureLabel[]" value = "register01count3">レジスタ使用回数3</label></li>
+                                    <li><label for="register01count4"><input type = "checkbox" name = "featureLabel[]" value = "register01count4">レジスタ使用回数4</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+
+
+
+
+                    <!--</div>-->
+                    </table>
                     <input type="submit" id="machineLearningcons" value="機械学習">
                     <button class="closeButton">閉じる</button>
                 </form>

@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score,KFold,cross_validate
 from sklearn.metrics import precision_score, recall_score, f1_score, classification_report
 import numpy as np
+import json
 
 
 class Classify:
@@ -48,11 +49,16 @@ class Classify:
         tmpdf = self.classifydf
         tmpdf = tmpdf.drop(["UID","WID","Understand"],axis = 1)
         features = tmpdf.columns
+        featuresdict = {}
         objective = ['Understand']
-        
+        #
+        for i in features:
+            featuresdict[i] = 0
+
         kf = KFold(n_splits=10, shuffle=True, random_state=0)
         X_data = self.classifydf[features]
         Y_data = self.classifydf[objective]
+
 
         for train_index,test_index in kf.split(X_data):
             train_x = X_data.iloc[train_index]
@@ -71,11 +77,19 @@ class Classify:
             print('{:.2f}'.format(f1*100))
             for i in range(len(features)):
                 print(str(i+1) + " "+ str(features[indices[i]]) + " " + '{:.2f}'.format(Feature_importances[indices[i]]))
+                featuresdict[features[indices[i]]] += Feature_importances[indices[i]]
 
             self.f1scores.append(f1)
             count += 1
         f1score = np.mean(self.f1scores)*100
         print(f1score)
+        for i in features:
+            featuresdict[i] = featuresdict[i]/count
+
+        jsonfinename = './featurejson/featuredict.json'
+        with open(jsonfinename, 'w') as f:
+            json.dump(featuresdict,f)
+        
 
 def main():
     inputfilename = 'pydata/test.csv'
