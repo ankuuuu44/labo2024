@@ -3,8 +3,7 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="visualstyle.css" type="text/css" />  
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="visualstyle.css" type="text/css" />
 </head>
 <body>
     ここは結果確認用のページです．<br>
@@ -151,10 +150,87 @@
         //exec("py", $output);
 
     ?>
-    
-    <canvas id = "pieChart"></canvas>
+    <div id = "canvasA">
+    <canvas id = "pieChart" width="300px",height = "300px"></canvas>
+    </div>
+    <div id = "canvasB">
+    <canvas id = "pie1Chart" width="300px",height = "300px"></canvas>
+    </div>
+    <div id = "canvasC">
+    <canvas id = "pie2Chart" width="300px",height = "300px"></canvas">
+    </div>
+
+    <script>
+        const ctx = document.getElementById('pieChart');
+        const ctx1 = document.getElementById('pie1Chart');
+        const ctx2 = document.getElementById('pie2Chart');
+        
+
+        const myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Time","totalStopTime","xUturnCount"],
+                datasets: [{
+                    data: [62, 20, 18],
+                    backgroundColor: [
+                        "#BB5179",
+                        "#FAFF67",
+                        "#58A27C",
+                    ],
+                }],
+                options : {
+                    title : {
+                        display : true,
+                        text : '78.92%'
+                    }
+                }
+            }
+        })
+        const myPieChart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: ["Time","totalStopTime","maxDDtime","DDcount"],
+                datasets: [{
+                    data: [52, 22, 18,8],
+                    backgroundColor: [
+                        "#BB5179",
+                        "#FAFF67",
+                        "#3C00FF",
+                        "#7fff00"
+                    ]
+                }],
+                options : {
+                    title : {
+                        display : true,
+                        text : '81,35%'
+                    }
+                }
+            }
+        })
+        const myPieChart2 = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ["Time","maxDDtime","distance"],
+                datasets: [{
+                    data: [42, 30, 28],
+                    backgroundColor: [
+                        "#BB5179",
+                        "#3C00FF",
+                        "#f08080"
+                    ]
+                }],
+                options : {
+                    title : {
+                        display : true,
+                        text : '72.16%'
+                    }
+                }
+            }
+        })
+    </script>
 
     <script type="module">
+        /*
         import jsondata from "./featurejson/featuredict.json" with {type: "json"};
         console.log(jsondata);
         function getRandomColor() {
@@ -181,6 +257,9 @@
             datasets: dataset
         },
         });
+        */
+
+
     </script>
     </div>
     </div>

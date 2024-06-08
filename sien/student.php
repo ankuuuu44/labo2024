@@ -1033,8 +1033,8 @@
         }
         .closeButton {
             position: absolute;
-            left:10;
-            bottom: 10;
+            left:5;
+            bottom: 0;
         }
         .checklabel{
             display: inline-block;
