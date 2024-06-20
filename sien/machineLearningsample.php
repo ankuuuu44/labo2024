@@ -20,6 +20,15 @@
             $selectcolumn = implode(",", $_POST['featureLabel']);
             $column_name.= $selectcolumn;   //データベースの列名が入っている．
             $featurevalue_sql.= $column_name." FROM featurevalue";
+            if(isset($_SESSION['where_clause'])){
+                $featurevalue_sql.= " WHERE 1 AND ";
+                $featurevalue_sql.= $_SESSION['where_clause'];
+            }else{
+                $featurevalue_sql.= " WHERE 1";
+            }
+
+            
+            //$featurevalue_sql.= " WHERE ";
             $featurevalue_res = mysqli_query($conn, $featurevalue_sql);
             $_SESSION['recent_search'][] = $featurevalue_sql;
             $recent_searches = array_slice($_SESSION['recent_search'], -5);

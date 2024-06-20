@@ -2747,6 +2747,12 @@ ChangeTab('tab1');
 
     echo "<br>";
     echo $sqlsearch;
+    if(preg_match('/WHERE 1 AND (.*)/i',$sqlsearch,$matches)){
+        $where_clause = $matches[1];
+        echo "検索条件:",$where_clause;
+        // セッション変数に代入
+        $_SESSION['where_clause'] = $where_clause;
+    }
     ?>
     <?php
     
