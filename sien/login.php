@@ -57,7 +57,7 @@ if(isset($_POST["idtxt"]) && isset($_POST["passtxt"]) && !empty($_POST["idtxt"])
         echo "上のif文に入りました";
         //echo "$resteach<br>";
         //header("location: ./teacher.php");
-        header("location: ./main.php");
+        header("location: ./teachertrue.php");
     }else if($numstu > 0){
         $rowstu = mysqli_fetch_array($resstu);
         $_SESSION["MemberID"] = $rowstu['UID'];

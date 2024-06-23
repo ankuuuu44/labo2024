@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="visualstyle.css" type="text/css" />
 </head>
@@ -157,7 +158,30 @@
         $json_data = file_get_contents('./featurejson/featuredict.json');
         $php_array = json_decode($json_data, true);
         //exec("py", $output);
+        $lately_mlresul_sql = "SELECT * FROM ml_results ORDER BY id DESC LIMIT 1";
+        $lately_mlresul_res = mysqli_query($conn, $lately_mlresul_sql);
+        while($lately_mlresul_rows = $lately_mlresul_res -> fetch_assoc()){
+            $lately_mlresul_id = $lately_mlresul_rows['id'];
+            $lately_mlresul_modelname = $lately_mlresul_rows['model_name'];
+            $lately_mlresul_featurename = $lately_mlresul_rows['featurename'];
+            $lately_mlresul_gini_results = $lately_mlresul_rows['gini_results'];
+            $lately_mlresul_acc_result = $lately_mlresul_rows['acc_result'];
+            $lately_mlresul_pre_result_y = $lately_mlresul_rows['pre_result_y'];
+            $lately_mlresul_pre_result_n = $lately_mlresul_rows['pre_result_n'];
+            $lately_mlresul_rec_result_y = $lately_mlresul_rows['rec_result_y'];
+            $lately_mlresul_rec_result_n = $lately_mlresul_rows['rec_result_n'];
+            $lately_mlresul_f1_score_y = $lately_mlresul_rows['f1_score_y'];
+            $lately_mlresul_f1_score_n = $lately_mlresul_rows['f1_score_n'];
+        }
 
+        echo "最新の学習結果のIDは".$lately_mlresul_id."、学習した特徴量は".$lately_mlresul_featurename."です。<br>";
+        echo "学習したモデルは".$lately_mlresul_modelname."です。<br>";
+        echo "学習結果は以下です。<br>";
+        echo "説明変数の特徴量の重要度は以下です。". $lately_mlresul_gini_results."<br>";
+        echo "正解率は以下です。". $lately_mlresul_acc_result."<br>";
+        echo "適合率は以下です。". $lately_mlresul_pre_result_y . " / " . $lately_mlresul_pre_result_n."<br>";
+        echo "再現率は以下です。". $lately_mlresul_rec_result_y . " / " . $lately_mlresul_rec_result_n."<br>";
+        echo "F値は以下です。". $lately_mlresul_f1_score_y . " / " . $lately_mlresul_f1_score_n."<br>";
     ?>
     <div id = "canvasA">
     <canvas id = "pieChart" width="300px",height = "300px"></canvas>
@@ -170,72 +194,80 @@
     </div>
 
     <script>
+        //グラフのjavascript
         const ctx = document.getElementById('pieChart');
         const ctx1 = document.getElementById('pie1Chart');
         const ctx2 = document.getElementById('pie2Chart');
+
+        const lately_mlresul_gini_results = '<?php echo $lately_mlresul_gini_results; ?>'
+        console.log(lately_mlresul_gini_results);
+        console.log(typeof lately_mlresul_gini_results);
+        const jsonlately = JSON.parse(lately_mlresul_gini_results);
+        console.log(jsonlately);
+        console.log(typeof jsonlately);
         
+        
+        const labelColorMap = {
+            //基本情報（赤，黄色）
+            'time': 'red',
+            "distance": 'orange',
+            "averageSpeed": 'gold', // 他のラベルの場合
+            "maxSpeed": 'yellow',
+            "totalStopTime":'peru',
+            "maxStopTime":'darkgoldenrod',
+            "stopcount":'chocolate',
+            "FromlastdropToanswerTime":'orengered',
+            //Uターン（青）
+            "xUTurnCount":'blue',
+            "yUTurnCount":'aqua',
+            "xUTurnCountDD":'dodgerblue',
+            "yUTurnCountDD":'turquoise',
+            //第一ドラッグ（ピンク）
+            "thinkingTime":'pink',
+            "answeringTime":'magenta',
+            //DD関連（紫）
+            "totalDDTime" :'purple',
+            "maxDDTime" :'indigo',
+            "minDDTime" :'bluevoilet',
+            "DDcount" :'mediumorchid',
+            "maxDDIntervalTime" :'violet',
+            "minDDIntervalTime" :'orchid',
+            "totalDDIntervalTime" :'slateblue',
+            "registerDDCount" :'darkslateblue',
+            //グルーピング関連(黒)
+            "groupingDDCount" :'dimgray',
+            "groupingCountbool" :'silver',
+            //レジスタ関連(緑)
+            "register_move_count1" :'green',
+            "register_move_count2" :'forestgreen',
+            "register01count1" :'seagreen',
+            "register01count2" :'mediumseagreen',
+
+        };
+
 
         const myPieChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ["Time","totalStopTime","xUturnCount"],
+                labels: Object.keys(jsonlately),
                 datasets: [{
-                    data: [62, 20, 18],
-                    backgroundColor: [
-                        "#BB5179",
-                        "#FAFF67",
-                        "#58A27C",
-                    ],
+                    data: Object.values(jsonlately),
+                    backgroundColor: function(context) {
+                        const label = context.chart.data.labels[context.dataIndex];
+                        return labelColorMap[label] || 'grey'; // デフォルト色は灰色
+                    },
                 }],
-                options : {
-                    title : {
-                        display : true,
-                        text : '78.92%'
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '81,35%'
                     }
                 }
             }
-        })
-        const myPieChart1 = new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: ["Time","totalStopTime","maxDDtime","DDcount"],
-                datasets: [{
-                    data: [52, 22, 18,8],
-                    backgroundColor: [
-                        "#BB5179",
-                        "#FAFF67",
-                        "#3C00FF",
-                        "#7fff00"
-                    ]
-                }],
-                options : {
-                    title : {
-                        display : true,
-                        text : '81,35%'
-                    }
-                }
-            }
-        })
-        const myPieChart2 = new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ["Time","maxDDtime","distance"],
-                datasets: [{
-                    data: [42, 30, 28],
-                    backgroundColor: [
-                        "#BB5179",
-                        "#3C00FF",
-                        "#f08080"
-                    ]
-                }],
-                options : {
-                    title : {
-                        display : true,
-                        text : '72.16%'
-                    }
-                }
-            }
-        })
+        });
+
     </script>
 
     <script type="module">
