@@ -2423,7 +2423,7 @@ ChangeTab('tab1');
         <!-- モーダルウィンドウの本体 -->
         <div id="modal-main">
             <h2>検索ウィンドウ</h2>
-            <form action="student.php" method="post">
+            <form action="teachertrue.php" method="post">
                 <b>UID</b> 
                     <select name="UIDrange">
                         <option value = "include">含む</option>

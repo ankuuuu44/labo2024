@@ -11,6 +11,15 @@ import json
 import mysql.connector
 
 
+class CSVaction:
+    def __init__(self):
+        self.output_path = 'pydata/hesitate2_4.csv'
+    def write_csv(self,df):
+        if df is not None:
+            sortdf = df.sort_values(['UID', 'WID'])
+            sortdf.to_csv(self.output_path, mode='w')
+        else:
+            print("Data frame is empty. Please read a CSV file first.")
 class Classify:
     def __init__(self,df):
         self.df = df
@@ -50,6 +59,38 @@ class Classify:
 
         self.classifydf = pd.concat([sampledf_2,sampledf_4])
         #print(self.classifydf)
+
+    def countUIDdata(self):
+        counts = self.classifydf['UID'].value_counts()
+        # カウント結果を表示
+        for item, count in counts.items():
+            print(f"{item}: {count}")
+    
+    def divideMainStu(self,mainstu):
+        self.mainStudf = self.classifydf.query('UID == @mainstu')
+        self.subStudf = self.classifydf.query('UID != @mainstu')
+        self.mainStudf = self.mainStudf.sort_values(['UID', 'WID'])
+        self.subStudf = self.subStudf.sort_values(['UID', 'WID'])
+        self.mainStudf_rows = self.mainStudf.shape[0]
+        self.subStudf_rows = self.subStudf.shape[0]
+        print(self.mainStudf)
+        print(self.subStudf)
+        print(self.mainStudf_rows)
+
+        k = 2                       #mainStuを分割したい数
+        if self.mainStudf_rows % k == 0:
+            N = (self.mainStudf_rows / k) 
+        else:
+            N = (self.mainStudf_rows // k) + 1
+        print(N)
+
+        self.splited_df = [self.mainStudf[i:i+N] for i in range(0, len(self.mainStudf), N)]
+        self.splited_df0 = self.splited_df[0]
+        self.splited_df1 = self.splited_df[1]
+
+
+
+
     
     def RandomForestClassify(self):
         count = 0
@@ -208,12 +249,24 @@ def main():
     inputfilename = 'pydata/test.csv'
     df = pd.read_csv(inputfilename)
     datamarge=Classify(df)
+    csvaction = CSVaction()
     #データを分割
-    return_df = datamarge.binary()
-    datamarge.countUnderstand(return_df)
+    return_df = datamarge.binary()      #迷い有りと無しのみ二分割
+    datamarge.countUnderstand(return_df)#迷い有りと無しの数をカウント
 
     datamarge.makingclassifydf()        #ここで迷い無しとありが1:1のデータセットができている．
-    datamarge.RandomForestClassify()
+    csvaction.write_csv(datamarge.classifydf)
+    datamarge.countUIDdata()
+
+    mainUID = 30914025
+    datamarge.divideMainStu(mainUID)    #ここで学生のみのデータセットを作成
+
+    #mainstuの学生のデータをk分割する．   
+
+
+
+    #datamarge.RandomForestClassify()
+    
 
 
     #データベース接続

@@ -33,18 +33,22 @@
             $featurevalue_res = mysqli_query($conn, $featurevalue_sql);
             $_SESSION['recent_search'][] = $featurevalue_sql;
             $recent_searches = array_slice($_SESSION['recent_search'], -5);
+            /*
             foreach($recent_searches as $query_search){
                 echo "保存されている検索条件は",$query_search,"です<br>";
             }
+            */
 
 
             //グラフ表示用のSQL
             $graphvisual_sql = $featurevalue_sql." ORDER BY UID ASC limit 10";
             $graphvisual_res = mysqli_query($conn, $graphvisual_sql);
+            $gettype = gettype($selectcolumn);
+            /*
             echo "選択した特徴量は".$selectcolumn."です<br>";
             echo "生成したSQLは".$featurevalue_sql."です<br>";
-            $gettype = gettype($selectcolumn);
             echo "gettypeは",$gettype;
+            */
 
             
             if($featurevalue_res != false){
@@ -179,6 +183,8 @@
         echo "学習結果は以下です。<br>";
         echo "説明変数の特徴量の重要度は以下です。". $lately_mlresul_gini_results."<br>";
         echo "正解率は以下です。". $lately_mlresul_acc_result."<br>";
+        echo "<table>";
+        echo "<tr><th>適合率</th><th>再現率</th><th>F値</th></tr>";
         echo "適合率は以下です。". $lately_mlresul_pre_result_y . " / " . $lately_mlresul_pre_result_n."<br>";
         echo "再現率は以下です。". $lately_mlresul_rec_result_y . " / " . $lately_mlresul_rec_result_n."<br>";
         echo "F値は以下です。". $lately_mlresul_f1_score_y . " / " . $lately_mlresul_f1_score_n."<br>";
