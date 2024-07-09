@@ -73,20 +73,90 @@ class Classify:
         self.subStudf = self.subStudf.sort_values(['UID', 'WID'])
         self.mainStudf_rows = self.mainStudf.shape[0]
         self.subStudf_rows = self.subStudf.shape[0]
-        print(self.mainStudf)
-        print(self.subStudf)
-        print(self.mainStudf_rows)
+        #print(self.mainStudf)
+        #print(self.subStudf)
+        #print(self.mainStudf_rows)
 
         k = 2                       #mainStuを分割したい数
         if self.mainStudf_rows % k == 0:
-            N = (self.mainStudf_rows / k) 
+            N = (self.mainStudf_rows / k)
         else:
             N = (self.mainStudf_rows // k) + 1
+        N = int(N)
         print(N)
 
         self.splited_df = [self.mainStudf[i:i+N] for i in range(0, len(self.mainStudf), N)]
         self.splited_df0 = self.splited_df[0]
         self.splited_df1 = self.splited_df[1]
+
+    def RandomForestClassify_Stu(self,testdf,learningdf):
+        count = 0
+        tmptestdf = testdf         
+        tmplearningdf = learningdf
+        tmptestdf = tmptestdf.drop(["UID","WID","Understand"],axis = 1)
+        self.features = tmptestdf.columns.tolist()
+        self.featuresdict = {}
+        objective = ['Understand']
+        #
+        for i in self.features:
+            self.featuresdict[i] = 0
+
+        #学習データと検証データの分割
+        X_data_train_after = learningdf[self.features]
+        Y_data_train_after = learningdf[objective]
+        Y_data_train_after = Y_data_train_after.to_numpy().ravel()
+        X_data_test_after = testdf[self.features]
+        Y_data_test_after = testdf[objective]
+        Y_data_test_after = Y_data_test_after.to_numpy().ravel()
+
+
+        #学習
+        accuracies = []
+        precisions_y = []   #迷い有り適合率
+        recalls_y = []      #迷い有り再現率
+        f1s_y = []          #迷い有りF1スコア
+        precisions_n = []   #迷い無し適合率
+        recalls_n = []      #迷い無し再現率
+        f1s_n = []          #迷い無しF1スコア
+
+        #迷い推定
+        model = RandomForestClassifier(n_estimators=100, random_state=0)
+        model.fit(X_data_train_after, Y_data_train_after)
+        pred = model.predict(X_data_test_after)
+        Feature_importances = model.feature_importances_
+        indices = np.argsort(Feature_importances)[::-1]
+
+        self.accuracy = accuracy_score(Y_data_test_after, pred)
+        self.precision_y = precision_score(Y_data_test_after, pred, pos_label=2)
+        self.recall_y = recall_score(Y_data_test_after, pred, pos_label=2)
+        self.f1_y = f1_score(Y_data_test_after, pred, pos_label=2)
+        self.precision_n = precision_score(Y_data_test_after, pred, pos_label=4)
+        self.recall_n = recall_score(Y_data_test_after, pred, pos_label=4)
+        self.f1_n = f1_score(Y_data_test_after, pred, pos_label=4)
+
+
+
+
+        print(f'Accuracy: {self.accuracy}, Precision_y: {self.precision_y}, Recall_y: {self.recall_y}, F1_y: {self.f1_y}, Precision_n: {self.precision_n}, Recall_n: {self.recall_n}, F1_n: {self.f1_n}')
+
+        '''
+        print(f'count:{count+1}')
+        print(f'Accuracy: {accuracy}')
+        print(f'Precision_y: {precision_y}')
+        print(f'Recall_y: {recall_y}')
+        print(f'F1_y: {f1_y}')
+        print(f'Precision_n: {precision_n}')
+        print(f'Recall_n: {recall_n}')
+        print(f'F1_n: {f1_n}')
+        '''
+        for i in range(len(self.features)):
+            #print(str(i+1) + " "+ str(self.features[indices[i]]) + " " + '{:.2f}'.format(Feature_importances[indices[i]]))
+            self.featuresdict[self.features[indices[i]]] += Feature_importances[indices[i]]
+
+        #print(self.featuresdict)
+        self.featuresdict_sorted = sorted(self.featuresdict.items(), key=lambda x:x[1])
+        #print(self.featuresdict_sorted)
+        #self.featuresdict['f1score'] = f1score
 
 
 
@@ -94,9 +164,9 @@ class Classify:
     
     def RandomForestClassify(self):
         count = 0
-        tmpdf = self.classifydf
-        tmpdf = tmpdf.drop(["UID","WID","Understand"],axis = 1)
-        self.features = tmpdf.columns.tolist()
+        tmpttestdf = self.classifydf
+        tmpttestdf = tmpttestdf.drop(["UID","WID","Understand"],axis = 1)
+        self.features = tmpttestdf.columns.tolist()
         self.featuresdict = {}
         objective = ['Understand']
         #
@@ -258,9 +328,102 @@ def main():
     csvaction.write_csv(datamarge.classifydf)
     datamarge.countUIDdata()
 
-    mainUID = 30914025
+    mainUID = 90910038
     datamarge.divideMainStu(mainUID)    #ここで学生のみのデータセットを作成
+    results_for_csv = []                #csvに書き込むためのリスト
 
+    for i in range (2):
+        if(i == 0):
+            print("---------------------------------------")
+            print("テストデータ0")
+            #対象学習者を含まない分類器
+            testdf = datamarge.splited_df0
+            learningdf = datamarge.subStudf
+            print("対象学習者を含まない分類器")
+            print(f'教師データ数:{learningdf.shape[0]}')
+            datamarge.RandomForestClassify_Stu(testdf,learningdf)
+            results_for_csv.append([mainUID,0,learningdf.shape[0],0,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+
+
+            learningdf_twice = pd.concat([datamarge.subStudf,datamarge.subStudf])
+            print("2倍の学習者を含む分類器")
+            print(f'教師データ数:{learningdf_twice.shape[0]}')
+            datamarge.RandomForestClassify_Stu(testdf,learningdf_twice)
+            results_for_csv.append([mainUID,0,learningdf_twice.shape[0],0,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+
+            #対象学習者を含む分類器
+            count = datamarge.subStudf_rows
+            whilecount = 0
+            count_mainstudata = 0
+            print("対象学習者を含む分類器")
+            while(count <= 3*(datamarge.subStudf_rows)):
+                if (whilecount == 0):
+                    learningdf_in_mainstu = pd.concat([datamarge.subStudf,datamarge.splited_df1])
+                else:
+                    learningdf_in_mainstu = pd.concat([learningdf_in_mainstu,datamarge.splited_df1])
+                datamarge.RandomForestClassify_Stu(testdf,learningdf_in_mainstu)
+
+                count = learningdf_in_mainstu.shape[0]
+                count_mainstudata += datamarge.splited_df1.shape[0]
+                whilecount = whilecount + 1
+                results_for_csv.append([mainUID,whilecount,count,count_mainstudata,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+                print(f'教師データ数:{count},whilecount:{whilecount}')
+
+        elif(i == 1):
+            print("-------------------------------------------")
+            print("テストデータ1")
+            #対象学習者を含まない分類器
+            testdf = datamarge.splited_df1
+            learningdf = datamarge.subStudf
+            print("対象学習者を含まない分類器")
+            print(f'教師データ数:{learningdf.shape[0]}')
+            datamarge.RandomForestClassify_Stu(testdf,learningdf)
+            results_for_csv.append([mainUID,0,learningdf.shape[0],0,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+
+            learningdf_twice = pd.concat([datamarge.subStudf,datamarge.subStudf])
+            print("2倍の学習者を含む分類器")
+
+            print(f'教師データ数:{learningdf_twice.shape[0]}')
+            datamarge.RandomForestClassify_Stu(testdf,learningdf_twice)
+            results_for_csv.append([mainUID,0,learningdf_twice.shape[0],0,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+
+            #対象学習者を含む分類器
+            count = datamarge.subStudf_rows
+            whilecount = 0
+            count_mainstudata = 0
+            print("対象学習者を含む分類器")
+            while(count <= 3*(datamarge.subStudf_rows)):
+                if (whilecount == 0):
+                    learningdf_in_mainstu = pd.concat([datamarge.subStudf,datamarge.splited_df0])
+                else:
+                    learningdf_in_mainstu = pd.concat([learningdf_in_mainstu,datamarge.splited_df0])
+                datamarge.RandomForestClassify_Stu(testdf,learningdf_in_mainstu)
+
+                count = learningdf_in_mainstu.shape[0]
+                count_mainstudata += datamarge.splited_df0.shape[0]
+                whilecount = whilecount + 1
+                print(f'教師データ数:{count},whilecount:{whilecount}')
+                results_for_csv.append([mainUID,whilecount,count,count_mainstudata,datamarge.accuracy,datamarge.precision_y,datamarge.recall_y,datamarge.f1_y,datamarge.precision_n,datamarge.recall_n,datamarge.f1_n,datamarge.featuresdict_sorted])
+    #print(results_for_csv)
+
+    for i, record in enumerate(results_for_csv):
+        # リストの最後の要素がリストでない場合はスキップ
+        if not isinstance(record[-1], list):
+            continue
+        features_list = record[-1]
+        # features_listがタプルのリストであることを確認
+        if all(isinstance(item, tuple) and len(item) == 2 for item in features_list):
+            features_str = '; '.join([f"{name}: {importance}" for name, importance in features_list])
+        else:
+            raise ValueError(f"Record index {i}: features_listの形式が期待される形式ではありません。内容: {features_list}")
+        record[-1] = features_str
+    columns = ["UID","whilecount","教師データ数","指定学生のデータ数","accuracy","precision_y","recall_y","f1_y","precision_n","recall_n","f1_n","featuresdict_sorted"]
+    df = pd.DataFrame(results_for_csv, columns=columns)
+    # CSVファイルに書き出し
+    df.to_csv('outputcsv\output.csv', mode="a",index=False, encoding="shift-jis")
+
+            #learningdf_cheating = pd.concat([datamarge.subStudf,datamarge.mainStudf])   #正解データの中にtestデータが入っている
+            #datamarge.RandomForestClassify_Stu(testdf,learningdf_cheating)              #これを実行したら100%になる．✖デバッグ用
     #mainstuの学生のデータをk分割する．   
 
 

@@ -92,14 +92,16 @@ class Classify:
                 recall_y = recall_score(test_y, pred, pos_label=2)
                 f1_y = f1_score(test_y, pred, pos_label=2)
             else:
-                 print(f"Fold Class 2 not found in y_test, skipping precision, recall, f1 for class 2")
+                 #print(f"Fold Class 2 not found in y_test, skipping precision, recall, f1 for class 2")
+                 pass
 
             if 4 in test_y:
                 precision_n = precision_score(test_y, pred, pos_label=4)
                 recall_n = recall_score(test_y, pred, pos_label=4)
                 f1_n = f1_score(test_y, pred, pos_label=4)
             else:
-                print(f"Fold : Class 4 not found in y_test, skipping precision, recall, f1 for class 4")
+                #print(f"Fold : Class 4 not found in y_test, skipping precision, recall, f1 for class 4")
+                pass
 
 
             accuracies.append(accuracy)
@@ -109,7 +111,7 @@ class Classify:
             precisions_n.append(precision_n)
             recalls_n.append(recall_n)
             f1s_n.append(f1_n)
-            print(f'Fold {count+1}: Accuracy: {accuracies}, Precision_y: {precisions_y}, Recall_y: {recall_y}, F1_y: {f1_y}, Precision_n: {precision_n}, Recall_n: {recall_n}, F1_n: {f1_n}')
+            #print(f'Fold {count+1}: Accuracy: {accuracies}, Precision_y: {precisions_y}, Recall_y: {recall_y}, F1_y: {f1_y}, Precision_n: {precision_n}, Recall_n: {recall_n}, F1_n: {f1_n}')
 
             '''
             print(f'count:{count+1}')
@@ -217,7 +219,6 @@ def main():
 
 
     #データベース接続
-    '''
     db = DBaction(host="127.0.0.1",user="root",password="8181saisaI",dbname="2019su1")
     db.connectDB()
     #データベースinsertするデータ
@@ -233,7 +234,6 @@ def main():
     f1_score_n = datamarge.f1score_n
 
     db.insertDB(model_name,featurename,gini_results,accuracy,precision_y,precision_n,recall_y,recall_n,f1_score_y,f1_score_n)
-    '''
     
 
 
