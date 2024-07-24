@@ -1,0 +1,112 @@
+{
+    "30914025": {
+        "correct": 22,
+        "total": 31,
+        "accuracy": 70.97
+    },
+    "30914026": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "30914904": {
+        "correct": 11,
+        "total": 31,
+        "accuracy": 35.48
+    },
+    "60910014": {
+        "correct": 24,
+        "total": 31,
+        "accuracy": 77.42
+    },
+    "60910020": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60910022": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "60910037": {
+        "correct": 13,
+        "total": 31,
+        "accuracy": 41.94
+    },
+    "60910044": {
+        "correct": 12,
+        "total": 31,
+        "accuracy": 38.71
+    },
+    "60910046": {
+        "correct": 13,
+        "total": 31,
+        "accuracy": 41.94
+    },
+    "60910090": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60910103": {
+        "correct": 23,
+        "total": 31,
+        "accuracy": 74.19
+    },
+    "60911041": {
+        "correct": 20,
+        "total": 31,
+        "accuracy": 64.52
+    },
+    "60911043": {
+        "correct": 19,
+        "total": 31,
+        "accuracy": 61.29
+    },
+    "60911060": {
+        "correct": 23,
+        "total": 31,
+        "accuracy": 74.19
+    },
+    "60911065": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60911069": {
+        "correct": 16,
+        "total": 31,
+        "accuracy": 51.61
+    },
+    "60911072": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "90910001": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "90910004": {
+        "correct": 18,
+        "total": 31,
+        "accuracy": 58.06
+    },
+    "90910033": {
+        "correct": 15,
+        "total": 31,
+        "accuracy": 48.39
+    },
+    "90910034": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "90910038": {
+        "correct": 20,
+        "total": 31,
+        "accuracy": 64.52
+    }
+}

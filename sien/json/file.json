@@ -1,0 +1,207 @@
+{
+    "6": {
+        "correct": 18,
+        "total": 29,
+        "accuracy": 62.07
+    },
+    "7": {
+        "correct": 0,
+        "total": 6,
+        "accuracy": 0
+    },
+    "8": {
+        "correct": 29,
+        "total": 31,
+        "accuracy": 93.55
+    },
+    "10": {
+        "correct": 29,
+        "total": 31,
+        "accuracy": 93.55
+    },
+    "11": {
+        "correct": 12,
+        "total": 21,
+        "accuracy": 57.14
+    },
+    "16": {
+        "correct": 0,
+        "total": 1,
+        "accuracy": 0
+    },
+    "17": {
+        "correct": 0,
+        "total": 6,
+        "accuracy": 0
+    },
+    "18": {
+        "correct": 25,
+        "total": 29,
+        "accuracy": 86.21
+    },
+    "20": {
+        "correct": 5,
+        "total": 14,
+        "accuracy": 35.71
+    },
+    "902": {
+        "correct": 1,
+        "total": 2,
+        "accuracy": 50
+    },
+    "9000": {
+        "correct": 0,
+        "total": 4,
+        "accuracy": 0
+    },
+    "9131114": {
+        "correct": 9,
+        "total": 30,
+        "accuracy": 30
+    },
+    "20191214": {
+        "correct": 2,
+        "total": 12,
+        "accuracy": 16.67
+    },
+    "30914025": {
+        "correct": 22,
+        "total": 31,
+        "accuracy": 70.97
+    },
+    "30914026": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "30914904": {
+        "correct": 11,
+        "total": 31,
+        "accuracy": 35.48
+    },
+    "60910014": {
+        "correct": 24,
+        "total": 31,
+        "accuracy": 77.42
+    },
+    "60910020": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60910022": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "60910037": {
+        "correct": 13,
+        "total": 31,
+        "accuracy": 41.94
+    },
+    "60910044": {
+        "correct": 12,
+        "total": 31,
+        "accuracy": 38.71
+    },
+    "60910046": {
+        "correct": 13,
+        "total": 31,
+        "accuracy": 41.94
+    },
+    "60910090": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60910103": {
+        "correct": 23,
+        "total": 31,
+        "accuracy": 74.19
+    },
+    "60911041": {
+        "correct": 20,
+        "total": 31,
+        "accuracy": 64.52
+    },
+    "60911043": {
+        "correct": 19,
+        "total": 31,
+        "accuracy": 61.29
+    },
+    "60911060": {
+        "correct": 23,
+        "total": 31,
+        "accuracy": 74.19
+    },
+    "60911065": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "60911069": {
+        "correct": 16,
+        "total": 31,
+        "accuracy": 51.61
+    },
+    "60911072": {
+        "correct": 14,
+        "total": 31,
+        "accuracy": 45.16
+    },
+    "70610078": {
+        "correct": 4,
+        "total": 16,
+        "accuracy": 25
+    },
+    "90910001": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "90910004": {
+        "correct": 18,
+        "total": 31,
+        "accuracy": 58.06
+    },
+    "90910033": {
+        "correct": 15,
+        "total": 31,
+        "accuracy": 48.39
+    },
+    "90910034": {
+        "correct": 17,
+        "total": 31,
+        "accuracy": 54.84
+    },
+    "90910038": {
+        "correct": 20,
+        "total": 31,
+        "accuracy": 64.52
+    },
+    "201912060": {
+        "correct": 2,
+        "total": 11,
+        "accuracy": 18.18
+    },
+    "201912090": {
+        "correct": 0,
+        "total": 11,
+        "accuracy": 0
+    },
+    "201912100": {
+        "correct": 0,
+        "total": 11,
+        "accuracy": 0
+    },
+    "201912120": {
+        "correct": 2,
+        "total": 11,
+        "accuracy": 18.18
+    },
+    "201912130": {
+        "correct": 0,
+        "total": 11,
+        "accuracy": 0
+    }
+}
