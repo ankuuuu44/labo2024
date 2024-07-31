@@ -1,0 +1,615 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+}
+
+header .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+header .profile {
+    font-size: 1em;
+}
+
+.container {
+    display: flex;
+}
+
+aside {
+    width: 200px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside ul li {
+    margin-bottom: 10px;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+main section {
+    margin-bottom: 20px;
+}
+
+main .overview,
+main .progress-chart,
+main .individual-details,
+main .weak-areas {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+main #head {
+    background-color: #fff;
+    padding-inline: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    width: auto;
+}
+
+
+main .sori {
+    display: flex;
+    flex-direction: column;
+    padding-left: 130px;
+    margin: auto;
+    width: 100%;
+}
+
+main .overview-contents {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: 110px;
+}
+
+.overview-contents>div {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.student-list-details-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+main .individual-details .student-list form {
+    display: flex;
+    flex-direction: column;
+}
+
+main .individual-details .student-list {
+    max-width: 10%;
+    margin-right: 20px;
+}
+
+main .individual-details .student-details {
+    width: 70%;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.student-progress {
+    display: flex;
+}
+
+.row-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.row-content .content:last-child {
+    margin-left: -200px;
+    /* 近づけたい距離を設定 */
+}
+
+.content {
+    width: 100%;
+    margin-right: 20px;
+}
+
+#stu-solve-ques {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+h4 {
+    white-space: nowrap;
+    /* テキストを一行に収める */
+}
+
+.doughnutgraph {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+main .individual-details .student-list #studentlist {
+    margin-bottom: 10px;
+    /* リストとボタンの間にスペースを追加 */
+    font-size: 20px;
+}
+
+main .individual-details .student-list,
+main .individual-details .student-details {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.scroll-table {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.modal {
+    display: none;
+    /* デフォルトでは非表示 */
+    position: fixed;
+    /* 画面に固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* スクロール可能に */
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    position: relative;
+    text-align: center;
+    background: #fff;
+    width: 80%;
+    height: 80%;
+    max-height: 800px;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+
+}
+
+.hide {
+    display: none;
+}
+
+/* テーブルの基本スタイル */
+.table2 {
+    width: 100%;
+    /* テーブルの幅を100%に設定 */
+    border-collapse: collapse;
+    /* ボーダーを一つにまとめる */
+    margin: 20px 0;
+    /* 上下のマージン */
+    font-family: 'Arial', sans-serif;
+    /* フォントファミリー */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    /* 影を追加 */
+}
+
+.table2 th,
+.table2 td {
+    border: 1px solid #ddd;
+    /* セルのボーダー */
+    padding: 8px 12px;
+    /* パディング */
+    text-align: left;
+    /* 左寄せ */
+    color: #333;
+    /* テキストカラー */
+}
+
+.table2 th {
+    background-color: #f8f8f8;
+    /* ヘッダーの背景色 */
+    font-weight: bold;
+    /* ボールドフォント */
+}
+
+/* フォームコントロールのスタイル */
+.table input[type="text"],
+select {
+    width: 100%;
+    /* 幅を100%に設定 */
+    padding: 8px;
+    /* パディング */
+    margin-top: 5px;
+    /* 上のマージン */
+    border: 1px solid #ccc;
+    /* ボーダー */
+    border-radius: 4px;
+    /* 角丸 */
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#stu-solve-ques {
+    width: 450px;
+    /* セレクトボックスの幅を親要素いっぱいに広げる */
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.img-chart {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.img-chart img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
+.table3 {
+    width: 100%;
+    /* テーブルの幅をページに合わせて調整 */
+    border-collapse: collapse;
+    /* セル間のボーダーを1本にする */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    /* テーブルに影をつける */
+    margin: 20px 0px 30px;
+    /* 上下の余白 */
+    font-size: 16px;
+    /* フォントサイズ */
+    border-radius: 8px;
+    /* ボーダーの角を丸くする */
+    overflow: hidden;
+    /* 角丸のためにオーバーフローを隠す */
+}
+
+.table3 th,
+.table3 td {
+    text-align: center;
+    /* セルのテキストを中央揃えにする */
+    padding: 12px 15px;
+    /* セル内のパディング */
+    border: 1px solid #ddd;
+    /* セルのボーダー */
+}
+
+.table3 th {
+    background-color: #4169e1;
+    /* ヘッダーの背景色 */
+    color: #ffffff;
+    /* ヘッダーの文字色 */
+    font-weight: bold;
+    /* ヘッダーのフォントを太字にする */
+}
+
+.table3 tr:nth-child(odd) {
+    background-color: #f9f9f9;
+    /* 奇数行の背景色 */
+}
+
+.table3 tr:hover {
+    background-color: #f1f1f1;
+    /* ホバー時の行の背景色 */
+}
+
+.table4 {
+    width: 40%;
+    /* テーブルの幅をページに合わせて調整 */
+    border-collapse: collapse;
+    /* セル間のボーダーを1本にする */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    /* テーブルに影をつける */
+    margin: 20px 0;
+    /* 上下の余白 */
+    font-size: 16px;
+    /* フォントサイズ */
+    border-radius: 8px;
+    /* ボーダーの角を丸くする */
+    overflow: hidden;
+    /* 角丸のためにオーバーフローを隠す */
+}
+
+.table4 th,
+.table4 td {
+    text-align: center;
+    /* セルのテキストを中央揃えにする */
+    padding: 9px 15px;
+    /* セル内のパディング */
+    border: 1px solid #ddd;
+    /* セルのボーダー */
+}
+
+.table4 th {
+    background-color: #4169e1;
+    /* ヘッダーの背景色 */
+    color: #ffffff;
+    /* ヘッダーの文字色 */
+    font-weight: bold;
+    /* ヘッダーのフォントを太字にする */
+}
+
+.table4 th {
+    background-color: #4169e1;
+    /* ヘッダーの背景色 */
+    color: #ffffff;
+    /* ヘッダーの文字色 */
+    font-weight: bold;
+    /* ヘッダーのフォントを太字にする */
+}
+
+.table4 tr:nth-child(odd) {
+    background-color: #f9f9f9;
+    /* 奇数行の背景色 */
+}
+
+.table4 tr:hover {
+    background-color: #f1f1f1;
+    /* ホバー時の行の背景色 */
+}
+
+.table5 {
+    width: 70%;
+    /* テーブルの幅をページに合わせて調整 */
+    border-collapse: collapse;
+    /* セル間のボーダーを1本にする */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    /* テーブルに影をつける */
+    margin: 20px 0;
+    /* 上下の余白 */
+    font-size: 16px;
+    /* フォントサイズ */
+    border-radius: 8px;
+    /* ボーダーの角を丸くする */
+    overflow: hidden;
+    /* 角丸のためにオーバーフローを隠す */
+}
+
+.table5 th,
+.table5 td {
+    text-align: center;
+    /* セルのテキストを中央揃えにする */
+    padding: 9px 15px;
+    /* セル内のパディング */
+    border: 1px solid #ddd;
+    /* セルのボーダー */
+}
+
+.table5 th {
+    background-color: #4169e1;
+    /* ヘッダーの背景色 */
+    color: #ffffff;
+    /* ヘッダーの文字色 */
+    font-weight: bold;
+    /* ヘッダーのフォントを太字にする */
+}
+
+.table5 th {
+    background-color: #4169e1;
+    /* ヘッダーの背景色 */
+    color: #ffffff;
+    /* ヘッダーの文字色 */
+    font-weight: bold;
+    /* ヘッダーのフォントを太字にする */
+}
+
+.table5 tr:nth-child(odd) {
+    background-color: #f9f9f9;
+    /* 奇数行の背景色 */
+}
+
+.table5 tr:hover {
+    background-color: #f1f1f1;
+    /* ホバー時の行の背景色 */
+}
+
+.highlight {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6347;
+    /* トマト色 */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 30px;
+}
+
+#first_dropdown {
+    margin-left: 920px;
+}
+
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    /* 固定幅 */
+    box-sizing: border-box;
+    /* パディングを含む幅計算 */
+    margin-top: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.dropdown-content a:hover {
+    margin-left: 8px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    margin-left: 10px;
+    /* 矢印のマージンを調整 */
+    margin-bottom: 9px;
+}
+
+.split-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 1050px;
+    /* 必要に応じて高さを調整 */
+    margin-top: 10px;
+    /* 必要に応じてマージンを調整 */
+}
+
+.left-panel,
+.right-panel {
+    flex: 1;
+    text-align: center;
+}
+
+.left-panel {
+    border-right: 2px solid #000;
+    /* 仕切り線を追加 */
+    height: 100%;
+}
+
+.right-panel {
+    border-left: 2px solid #000;
+    /* 仕切り線を追加 */
+    height: 100%;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    /* 垂直方向の中央揃え */
+    justify-content: flex-start;
+    /* 水平方向の左揃え */
+    font-size: 20px;
+    text-align: left;
+    margin-left: 50px;
+}
+
+#selectedUID,
+#selectedWID {
+    text-decoration: underline;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: 30px;
+    font-size: 16px;
+}
+
+.text-container > h3{
+    margin-right: 90px;
+}
+
+.text-container > .content{
+    margin-top: 40px;
+    text-align: left;
+}

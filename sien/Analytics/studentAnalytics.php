@@ -186,10 +186,13 @@
                         $countgrammar[$value]++;
                         if ($row["TF"] == 1) {
                             $grammarCountTrue[$value]++;
-                            if ($row['Understand'] == 2) $grammarCounthesitateT[$value]++;
                         } else {
                             $grammarCountFalse[$value]++;
-                            if ($row['Understand'] == 4) $grammarCounthesitateF[$value]++;
+                        }
+                        if ($row['Understand'] == 2) {
+                            $grammarCounthesitateF[$value]++;
+                        }else if ($row['Understand'] == 2) {
+                            $grammarCounthesitateT[$value]++;
                         }
                     }
                     
@@ -351,45 +354,173 @@
             </section>
 
             <section class="progress-chart">
+                <h2>学習者情報</h2>
                 <div class = "container">
-                    <div id = "alldata-info">
-                        <h2>データ全体</h2>
-                        <div align ="center" id = "accuracy-chart">
-                            <h3>正答率分布</h3>
-                            <div class = "img-chart">
-                                <img src="images/accuracy_histogram.png" alt="Accuracy Histogram">
-                            </div>
-                        </div>
-                        <div class = "container">
-                            <div id = "miss-ques">
-                                <h3>誤答率が高い問題</h3>
-                                <table border="1" id="tablemiss-ques" class = "table4">
-                                    <thead>
-                                        <tr>
-                                            <th>順位</th>
-                                            <th>WID</th>
-                                            <th>問題</th>
-                                            <th>正答率</th>
-                                        </tr>
-                                    <thead>
-                                    <tbody>
-                                        <!-- ここに検索結果で誤答率が高いものを表示 -->
-                                        <?php foreach ($lowest_accuracy_questions as $index => $counts) { ?>
-                                            <tr>
-                                                <td><?php echo $index + 1; ?></td>
-                                                <td><?php echo htmlspecialchars($counts['WID']); ?></td>
-                                                <td><?php echo htmlspecialchars($counts['Sentence']); ?></td>
-                                                <td><?php echo htmlspecialchars($counts['accuracy']); ?>%</td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id = "苦手な文法項目">
-                                <h3>苦手な文法項目</h3>
-                            </div>
-                        </div>
+                    <div class="student-list">
+                            <h3>学習者リスト</h3>
+                            <form action="teachertrue.php" method="post" id = "stu_form">
+                                <select name="studentlist" id="studentlist" size="10">
+                                    <?php
+                                        
+                                        // データベースから学習者リストを取得
+                                        $StudentAll_SQL = "SELECT uid,Name FROM member";
+                                        if(isset($_POST["UIDrange"]) && $_POST["UIDrange"] == "not"){
+                                            $StudentAll_SQL .= " WHERE uid NOT IN (".$_POST["UIDsearch"].")";
+                                        }else if(isset($_POST["UIDrange"]) && $_POST["UIDrange"] == "include"){ 
+                                            $StudentAll_SQL .= " WHERE uid IN (".$_POST["UIDsearch"].")";
+                                        }
+
+                                        $StudentAll_Result = mysqli_query($conn, $StudentAll_SQL);
+                                        while($row = mysqli_fetch_assoc($StudentAll_Result)){
+                                            echo '<option value="'.$row["uid"].'">'.$row["Name"].'</option>';
+                                        }
+                                        
+
+                                    ?>
+                                </select>
+                                <input type="button" value="表示" id = "stu_info">
+                            </form>
                     </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var myChart;
+
+                            document.getElementById("stu_info").addEventListener("click", function(event) {
+                                event.preventDefault();
+                                fetchStudents();
+                            });
+
+                            function fetchStudents() {
+                                var form = document.getElementById('stu_form');
+                                var formData = new FormData(form);
+                                // FormDataの内容を確認
+                                for (var pair of formData.entries()) {
+                                    console.log(pair[0] + ': ' + pair[1]);
+                                }
+
+                                fetch('../fetch_student_details.php', {
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok ' + response.statusText);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    console.log('Fetch successful');
+                                    console.log(data);
+                                    if (data.error) {
+                                        console.error('Server error: ' + data.error);
+                                    } else {
+                                        document.getElementById('student-solve-ques').innerHTML = data.questions;
+                                        document.getElementById('studentName').innerHTML = data.studentName;
+                                        document.getElementById('quesTimeValue').innerHTML = data.studentQuesTime;
+                                        console.log(data.stu_accuracy_grammar);
+                                        document.getElementById('student-accuracy').style.display = "block";
+                                        document.getElementById('studentQuesTime').style.display = "block";
+
+                                        // テーブルにユーザーデータを追加
+                                        //いったん消す
+                                        var tableBody = document.querySelector('.table3 tbody');
+                                        var userRow = document.createElement('tr');
+                                        userRow.innerHTML = `
+                                            <th>${data.studentName}</th>
+                                            <td id="user-dif1">${data.Stu_accuracy_dif1}</td>
+                                            <td id="user-dif2">${data.Stu_accuracy_dif2}</td>
+                                            <td id="user-dif3">${data.Stu_accuracy_dif3}</td>
+                                            <td><button class="delete-row">削除</button></td>
+                                        `;
+                                        tableBody.appendChild(userRow);
+                                        // 削除ボタンにイベントリスナーを追加
+                                        userRow.querySelector('.delete-row').addEventListener('click', function() {
+                                            tableBody.removeChild(userRow);
+                                        });
+                                        //画像を更新
+                                        var imgContainer = document.getElementById("comparison_data1");
+                                        imgContainer.innerHTML = "";
+                                        var plotImg = document.createElement("img");
+                                        plotImg.src = data.image_path + "?t=" + new Date().getTime(); // 一意のクエリパラメータを追加
+                                        plotImg.alt = "Accuracy grammar";
+                                        imgContainer.appendChild(plotImg);
+                                        
+
+                                        createChart(data.correctCount, data.incorrectCount, data.totalCount);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Fetch error:', error);
+                                });
+                            }
+                            const centerTextPlugin = {
+                                id: 'centerText',
+                                afterDraw: function(chart) {
+                                    var correctCount = chart.config.data.datasets[0].data[0];
+                                    var totalCount = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    var correctPercentage = (correctCount * 100 / totalCount).toFixed(2);
+
+                                    var width = chart.width,
+                                        height = chart.height,
+                                        ctx = chart.ctx;
+
+                                    ctx.save(); // 状態を保存
+
+                                    var fontSize = (height / 350).toFixed(2);
+                                    ctx.font = fontSize + "em sans-serif";
+                                    ctx.textBaseline = "middle";
+
+                                    var text = "正解率 " + correctPercentage + "%",
+                                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                        textY = height / 2;
+                                    ctx.fillText(text, textX, textY);
+
+                                    ctx.restore(); // 状態を復元
+                                }
+                            };
+
+                            Chart.register(centerTextPlugin);
+
+                            function createChart(correctCount, incorrectCount, totalCount) {
+                                if (totalCount === 0) {
+                                    console.error('Total count is zero, cannot calculate percentages.');
+                                    return;
+                                }
+
+                                var ctx = document.getElementById('Stu-Accuracy').getContext('2d');
+
+                                if (myChart) {
+                                    myChart.data.datasets[0].data = [correctCount, incorrectCount];
+                                    myChart.update();
+                                } else {
+                                    myChart = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['正解', '不正解'],
+                                            datasets: [{
+                                                data: [correctCount, incorrectCount],
+                                                backgroundColor: ['#FF6384', '#36A2EB'],
+                                                hoverBackgroundColor: ['#FF6384', '#36A2EB']
+                                            }]
+                                        },
+                                        options: {
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                },
+                                                title: {
+                                                    display: false,
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    </script>
+                </div>
+                <div class = "container">
                     <div id = "studentdata-info">
                         <h2>学生全体</h2>
                         <div align ="center">

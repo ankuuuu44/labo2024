@@ -41,6 +41,15 @@ header .profile {
 .container {
     display: flex;
 }
+.container .subcontent50 .subcontent {
+    flex:1;
+    margin: 10px;
+}
+.subcontent50{
+    width: 50%;
+    border: 2px solid blue;
+    margin: 10px;
+}
 
 aside {
     width: 200px;
@@ -91,6 +100,17 @@ main .overview-contents{
     flex-direction: row;
     width: 100%;
 }
+main .head-content {
+    background-color: #fff;
+    padding-inline: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* 垂直方向の中央揃え */
+    margin-bottom: 20px;
+    width: 100%;
+}
 .overview-contents > div {
     flex: 1;
     margin-right: 10px;
@@ -101,7 +121,13 @@ main .overview-contents{
     margin-bottom: 20px;
     width: 100%;
 }
-
+.title{
+    width: 50%;
+}
+#ques-info-data{
+    border: 1px solid red;
+    margin: 1px;
+}
 .student-list-details-container {
     display: flex;
     flex-direction: row;
@@ -143,7 +169,7 @@ h4 {
     max-width: 300px;
     max-height: 300px;
 }
-main .individual-details .student-list #studentlist {
+main .student-list #studentlist {
     margin-bottom: 10px; /* リストとボタンの間にスペースを追加 */
     font-size: 20px;
 }
@@ -288,4 +314,47 @@ main .individual-details .student-details {
     font-size: 24px;
     font-weight: bold;
     color: #ff6347; /* トマト色 */
+}
+
+.text-highlight{
+    font-weight: bold;
+    color: red;
+}
+
+.text-highlight{
+    font-weight: bold;
+    color: red;
+}
+.table5 {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+.table5 thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+.table5 th, .table5 td {
+    padding: 12px 15px;
+}
+.table5 tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.table5 tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+.table5 tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.table5 tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+#stu-accuracy-grammar{
+    max-width: 100%;
+    max-height: 400px;
 }

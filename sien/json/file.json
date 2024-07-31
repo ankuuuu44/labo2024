@@ -1,69 +1,4 @@
 {
-    "6": {
-        "correct": 18,
-        "total": 29,
-        "accuracy": 62.07
-    },
-    "7": {
-        "correct": 0,
-        "total": 6,
-        "accuracy": 0
-    },
-    "8": {
-        "correct": 29,
-        "total": 31,
-        "accuracy": 93.55
-    },
-    "10": {
-        "correct": 29,
-        "total": 31,
-        "accuracy": 93.55
-    },
-    "11": {
-        "correct": 12,
-        "total": 21,
-        "accuracy": 57.14
-    },
-    "16": {
-        "correct": 0,
-        "total": 1,
-        "accuracy": 0
-    },
-    "17": {
-        "correct": 0,
-        "total": 6,
-        "accuracy": 0
-    },
-    "18": {
-        "correct": 25,
-        "total": 29,
-        "accuracy": 86.21
-    },
-    "20": {
-        "correct": 5,
-        "total": 14,
-        "accuracy": 35.71
-    },
-    "902": {
-        "correct": 1,
-        "total": 2,
-        "accuracy": 50
-    },
-    "9000": {
-        "correct": 0,
-        "total": 4,
-        "accuracy": 0
-    },
-    "9131114": {
-        "correct": 9,
-        "total": 30,
-        "accuracy": 30
-    },
-    "20191214": {
-        "correct": 2,
-        "total": 12,
-        "accuracy": 16.67
-    },
     "30914025": {
         "correct": 22,
         "total": 31,
@@ -149,11 +84,6 @@
         "total": 31,
         "accuracy": 45.16
     },
-    "70610078": {
-        "correct": 4,
-        "total": 16,
-        "accuracy": 25
-    },
     "90910001": {
         "correct": 17,
         "total": 31,
@@ -178,30 +108,5 @@
         "correct": 20,
         "total": 31,
         "accuracy": 64.52
-    },
-    "201912060": {
-        "correct": 2,
-        "total": 11,
-        "accuracy": 18.18
-    },
-    "201912090": {
-        "correct": 0,
-        "total": 11,
-        "accuracy": 0
-    },
-    "201912100": {
-        "correct": 0,
-        "total": 11,
-        "accuracy": 0
-    },
-    "201912120": {
-        "correct": 2,
-        "total": 11,
-        "accuracy": 18.18
-    },
-    "201912130": {
-        "correct": 0,
-        "total": 11,
-        "accuracy": 0
     }
 }
