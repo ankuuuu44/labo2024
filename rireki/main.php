@@ -1,11 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <?php
     session_start();
-    if($_POST["mark"] != $_SESSION["mark"]){//正誤表示、部分点表示の場合分け処理
-        if(isset($_POST["mark"])){
+    if(isset($_POST["mark"])){
+        if($_POST["mark"] != $_SESSION["mark"]){//正誤表示、部分点表示の場合分け処理
             $_SESSION["mark"] = $_POST["mark"];
         }
     }
+    
 ?>
 
 <html>
@@ -16,7 +17,65 @@
     $mode =0;
 
     //検索の条件
-    $commando_s1 = $_POST["commando_s1"];//学習者コマンド
+    if(isset($_POST["commando_s1"])){
+        $commando_s1 = $_POST["commando_s1"];//学習者コマンド
+    }
+    if(isset($_POST["commando_s2"])){
+        $commando_s2 = $_POST["commando_s2"];
+    }
+    if(isset($_POST["commando_s3"])){
+        $commando_s3 = $_POST["commando_s3"];
+    }
+    if(isset($_POST["commando_s4"])){
+        $commando_s4 = $_POST["commando_s4"];
+    }
+    if(isset($_POST["commando_q1"])){
+        $commando_q1 = $_POST["commando_q1"];//問題コマンド
+    }
+    if(isset($_POST["commando_q2"])){
+        $commando_q2 = $_POST["commando_q2"];
+    }
+    if(isset($_POST["commando_q3"])){
+        $commando_q3 = $_POST["commando_q3"];
+    }
+    if(isset($_POST["commando_q4"])){
+        $commando_q4 = $_POST["commando_q4"];
+    }
+    if(isset($_POST["commando_q5"])){
+        $commando_q5 = $_POST["commando_q5"];
+    }
+    if(isset($_POST["commando_q6"])){
+        $commando_q6 = $_POST["commando_q6"];
+    }
+    if(isset($_POST["commando_q7"])){
+        $commando_q7 = $_POST["commando_q7"];
+    }
+    if(isset($_POST["commando_r1"])){   //履歴コマンド  
+        $commando_r1 = $_POST["commando_r1"];
+    }
+    if(isset($_POST["commando_r2"])){
+        $commando_r2 = $_POST["commando_r2"];
+    }
+    if(isset($_POST["commando_r3"])){
+        $commando_r3 = $_POST["commando_r3"];
+    }
+    if(isset($_POST["commando_r4"])){
+        $commando_r4 = $_POST["commando_r4"];
+    }    
+    if(isset($_POST["commando_r5"])){
+        $commando_r5 = $_POST["commando_r5"];
+    }
+    if(isset($_POST["commando_r6"])){
+        $commando_r6 = $_POST["commando_r6"];
+    }
+    if(isset($_POST["commando_r7"])){
+        $commando_r7 = $_POST["commando_r7"];
+    }
+    if(isset($_POST["commando_r8"])){
+        $commando_r8 = $_POST["commando_r8"];
+    }
+
+    /* 
     $commando_s2 = $_POST["commando_s2"];
     $commando_s3 = $_POST["commando_s3"];
     $commando_s4 = $_POST["commando_s4"];
@@ -35,93 +94,134 @@
     $commando_r6 = $_POST["commando_r6"];
     $commando_r7 = $_POST["commando_r7"];
     $commando_r8 = $_POST["commando_r8"];
+    */
+    if(isset($commando_s1[0])){
+        if($commando_s1[0] =="1"){
+            $stu = $_POST["stu"];//学習者選択
+        }
+    }
+    if(isset($commando_s2[0])){
+        if($commando_s2[0] =="2"){
+            $maxpoint_s = $_POST["maxpoint_s"];
+            $minpoint_s = $_POST["minpoint_s"];
+            $maxcorrect_s = $_POST["maxcorrect_s"];//最小正解率(学習者)
+            $mincorrect_s=  $_POST["mincorrect_s"];//最大正解率(学習者)
+        }
+    }
+    if(isset($commando_s3[0])){
+        if($commando_s3[0] =="3"){
+            $maxtime_s = $_POST["maxtime_s"];//最小解答時間(学習者)
+            $mintime_s=  $_POST["mintime_s"];//最大解答時間(学習者)
+        }
+    }
+    if(isset($commando_s4[0])){
+        if($commando_s4[0] =="4"){
+            $maxanswernum_s = $_POST["maxanswernum_s"];
+            $minanswernum_s = $_POST["minanswernum_s"];
+        }
+    }
+    if(isset($commando_q1[0])){
+        if($commando_q1[0] =="1"){
+            $sent =$_POST["sent"];//問題選択
+        }
+    }
+    if(isset($commando_q2[0])){
+        if($commando_q2[0] =="2"){
+            $maxcorrect_q = $_POST["maxcorrect_q"];//最小正解率(問題)
+            $mincorrect_q=  $_POST["mincorrect_q"];//最大正解率(問題)
+            $maxpoint_q = $_POST["maxpoint_q"];
+            $minpoint_q = $_POST["minpoint_q"];
+        }
+    }
+    if(isset($commando_q3[0])){
+        if($commando_q3[0] =="3"){
+            $maxtime_q = $_POST["maxtime_q"];//最小時間(問題)
+            $mintime_q=  $_POST["mintime_q"];//最大時間(問題)
+        }
+    }
+    if(isset($commando_q4[0])){
+        if($commando_q4[0] =="4"){
+            $maxword = $_POST["maxword"];//最大単語数
+            $minword = $_POST["minword"];//最小単語数
+        }
+    }
+    if(isset($commando_q5[0])){
+        if($commando_q5[0] =="5"){
+            $level =$_POST["level"];//難易度(問題)
+        }
+    }
+    if(isset($commando_q6[0])){
+        if($commando_q6[0] =="6"){
+            $grammar = $_POST["grammar"];//文法項目(問題)
+        }
+    }
+    if(isset($commando_q7[0])){
+        if($commando_q7[0] =="7"){
+            $word = $_POST["word"];//単語検索(問題)
+        }
+    }
+    if(isset($commando_r1[0])){
+        if($commando_r1[0] =="1"){
+            $truefalse =$_REQUEST["truefalse"];//正誤(履歴データ)
+            $maxpoint_r = $_POST["maxpoint_r"];
+            $minpoint_r = $_POST["minpoint_r"];
+            $maxword = $_POST["maxword"];//最小得点(履歴データ)
+            $minword=  $_POST["minword"];//最大得点(履歴データ)
 
-    if($commando_s1[0] =="1"){
-        $stu = $_POST["stu"];//学習者選択
+        }
     }
-    if($commando_s2[0] =="2"){
-        $maxpoint_s = $_POST["maxpoint_s"];
-        $minpoint_s = $_POST["minpoint_s"];
-        $maxcorrect_s = $_POST["maxcorrect_s"];//最小正解率(学習者)
-        $mincorrect_s=  $_POST["mincorrect_s"];//最大正解率(学習者)
+    if(isset($commando_r2[0])){
+        if($commando_r2[0] =="2"){
+            $maxtime_r = $_POST["maxtime_r"];//最小時間(履歴データ)
+            $mintime_r=  $_POST["mintime_r"];//最大時間(履歴データ)
+        }
     }
-    if($commando_s3[0] =="3"){
-        $maxtime_s = $_POST["maxtime_s"];//最小解答時間(学習者)
-        $mintime_s=  $_POST["mintime_s"];//最大解答時間(学習者)
+    if(isset($commando_r3[0])){
+        if($commando_r3[0] =="3"){
+            $year_s = $_POST["year_s"];
+            $month_s = $_POST["month_s"];
+            $dath_s = $_POST["dath_s"];
+            $year_e = $_POST["year_e"];
+            $month_e = $_POST["month_e"];
+            $dath_e = $_POST["dath_e"];
+        }
     }
-    if($commando_s4[0] =="4"){
-        $maxanswernum_s = $_POST["maxanswernum_s"];
-        $minanswernum_s = $_POST["minanswernum_s"];
+    if(isset($commando_r4[0])){
+        if($commando_r4[0] =="4"){
+            $confidence =$_POST["confidence"];//自信度
+        }
     }
-    if($commando_q1[0] =="1"){
-        $sent =$_POST["sent"];//問題選択
+    if(isset($commando_r5[0])){
+        if($commando_r5[0] =="5"){
+            $maxUTurn_r = $_POST["maxUTurn_r"];//最小時間(履歴データ)
+            $minUTurn_r=  $_POST["minUTurn_r"];//最大時間(履歴データ)
+        }
     }
-    if($commando_q2[0] =="2"){
-        $maxcorrect_q = $_POST["maxcorrect_q"];//最小正解率(問題)
-        $mincorrect_q=  $_POST["mincorrect_q"];//最大正解率(問題)
-        $maxpoint_q = $_POST["maxpoint_q"];
-        $minpoint_q = $_POST["minpoint_q"];
+    if(isset($commando_r6[0])){
+        if($commando_r6[0] =="6"){
+            $maxDD_r = $_POST["maxDD_r"];//最小回数(履歴データ)
+            $minDD_r=  $_POST["minDD_r"];//最大回数(履歴データ)
+        }
     }
-    if($commando_q3[0] =="3"){
-        $maxtime_q = $_POST["maxtime_q"];//最小時間(問題)
-        $mintime_q=  $_POST["mintime_q"];//最大時間(問題)
+    if(isset($commando_r7[0])){
+        if($commando_r7[0] =="7"){
+            $GroupingTF =$_REQUEST["GroupingTF"];//グルーピング有無(履歴データ)
+        }
     }
-    if($commando_q4[0] =="4"){
-        $maxword = $_POST["maxword"];//最大単語数
-        $minword = $_POST["minword"];//最小単語数
-    }
-    if($commando_q5[0] =="5"){
-        $level =$_POST["level"];//難易度(問題)
-    }
-    if($commando_q6[0] =="6"){
-        $grammar = $_POST["grammar"];//文法項目(問題)
-    }
-    if($commando_q7[0] =="7"){
-        $word = $_POST["word"];//単語検索(問題)
-    }
-
-    if($commando_r1[0] =="1"){
-        $truefalse =$_REQUEST["truefalse"];//正誤(履歴データ)
-        $maxpoint_r = $_POST["maxpoint_r"];
-        $minpoint_r = $_POST["minpoint_r"];
-        $maxword = $_POST["maxword"];//最小得点(履歴データ)
-        $minword=  $_POST["minword"];//最大得点(履歴データ)
-
-    }
-    if($commando_r2[0] =="2"){
-        $maxtime_r = $_POST["maxtime_r"];//最小時間(履歴データ)
-        $mintime_r=  $_POST["mintime_r"];//最大時間(履歴データ)
-    }
-    if($commando_r3[0] =="3"){
-        $year_s = $_POST["year_s"];
-        $month_s = $_POST["month_s"];
-        $dath_s = $_POST["dath_s"];
-        $year_e = $_POST["year_e"];
-        $month_e = $_POST["month_e"];
-        $dath_e = $_POST["dath_e"];
-    }
-    if($commando_r4[0] =="4"){
-        $confidence =$_POST["confidence"];//自信度
-    }
-    if($commando_r5[0] =="5"){
-        $maxUTurn_r = $_POST["maxUTurn_r"];//最小時間(履歴データ)
-        $minUTurn_r=  $_POST["minUTurn_r"];//最大時間(履歴データ)
-    }
-    if($commando_r6[0] =="6"){
-        $maxDD_r = $_POST["maxDD_r"];//最小回数(履歴データ)
-        $minDD_r=  $_POST["minDD_r"];//最大回数(履歴データ)
-    }
-    if($commando_r7[0] =="7"){
-        $GroupingTF =$_REQUEST["GroupingTF"];//グルーピング有無(履歴データ)
-    }
-    if($commando_r8[0] =="8"){
-        $maxDDrev_r = $_POST["maxDDrev_r"];//最小回数(履歴データ)
-        $minDDrev_r=  $_POST["minDDrev_r"];//最大回数(履歴データ)
+    if(isset($commando_r8[0])){
+        if($commando_r8[0] =="8"){
+            $maxDDrev_r = $_POST["maxDDrev_r"];//最小回数(履歴データ)
+            $minDDrev_r=  $_POST["minDDrev_r"];//最大回数(履歴データ)
+        }
     }
 
     //検索用要素
-    $radio = $_REQUEST["radio"];
-    $radiobutton = $_REQUEST["radiobutton"];
+    if(isset($_REQUEST["radio"])){
+        $radio = $_REQUEST["radio"];
+    }
+    if(isset($_REQUEST["radiobutton"])){
+        $radiobutton = $_REQUEST["radiobutton"];
+    }
 
 
     //履歴参照用
@@ -155,12 +255,18 @@
         $_SESSION["studentlist"] = $_REQUEST["studentlist"];
         header("Location:outlier.php") ;
     }
-    $bbb = $_REQUEST["queslist"];
-    if($aaa !=""){
-	    $_SESSION["student"]= " and linedata.UID = ".$aaa;
+    if(isset($_REQUEST["queslist"])){
+        $bbb = $_REQUEST["queslist"];
     }
-    if($bbb != ""){
-	    $_SESSION["question"]= " and linedata.WID = ".$bbb;
+    if(isset($aaa)){
+        if($aaa !=""){
+            $_SESSION["student"]= " and linedata.UID = ".$aaa;
+        }
+    }
+    if(isset($bbb)){
+        if($bbb != ""){
+            $_SESSION["question"]= " and linedata.WID = ".$bbb;
+        }
     }
     $term = $_SESSION["student"]." ".$_SESSION["question"];
     $term_rireki = $_SESSION["student"]." ".$_SESSION["question"];
@@ -494,15 +600,17 @@
             $datetime_e = $year_e."-".$month_e."-".$dath_e;
         }
     }
-    if($datetime_s!=""){//期間処理用
-        if($datetime_e !=""){
-            $term_rireki = $term_rireki." and linedata.Date between '".$datetime_s." 00:00:00' and '".$datetime_e." 23:59:59'";
+    if(isset($datetime_s)){
+        if($datetime_s!=""){//期間処理用
+            if($datetime_e !=""){
+                $term_rireki = $term_rireki." and linedata.Date between '".$datetime_s." 00:00:00' and '".$datetime_e." 23:59:59'";
+            }else{
+                $term_rireki = $term_rireki." and linedata.Date >= '".$datetime_s." 00:00:00'";
+            }
         }else{
-            $term_rireki = $term_rireki." and linedata.Date >= '".$datetime_s." 00:00:00'";
-        }
-    }else{
-        if($datetime_e!=""){
-            $term = $term." and linedata.Date <= '".$datetime_e." 23:59:59'";
+            if($datetime_e!=""){
+                $term = $term." and linedata.Date <= '".$datetime_e." 23:59:59'";
+            }
         }
     }
     if(isset($confidence[0])){//自信度
@@ -573,9 +681,12 @@
     }
 
     //履歴データ検索関連ここまで-----------------------
-    $term_s = $term_rireki." ".$term_UID_ques." ".$search_ID_stu;
-    $term_q = $term_rireki." ".$WID_stu." ".$term_WID_ques;
-    $term_r = $term_rireki." ".$search_ID_stu." ".$term_UID_ques." ".$WID_stu." ".$term_WID_ques;
+    if(isset($term_rireki) && isset($term_UID_ques) && isset($search_ID_stu) && isset($WID_stu) && isset($term_WID_ques)){
+        $term_s = $term_rireki." ".$term_UID_ques." ".$search_ID_stu;
+        $term_q = $term_rireki." ".$WID_stu." ".$term_WID_ques;
+        $term_r = $term_rireki." ".$search_ID_stu." ".$term_UID_ques." ".$WID_stu." ".$term_WID_ques;
+    }
+    
 
     if($term == " "){//検索が空の時
         $commando_s1 = "1";//学習者コマンド
@@ -776,7 +887,7 @@
     <div id ="tab1" class="tab">
         <br>
         <?php
-            $res = mysql_query($sql,$conn) or die("接続エラー1");
+            $res = mysqli_query($conn,$sql) or die("接続エラー1");
         ?>
         <form action = "main.php" method="post" target="_blank">
             <table border ="0" width="600" align="center">
@@ -825,11 +936,11 @@
             <br><br>
             <SELECT NAME="queslist" SIZE=15 style="width:400px">
             <?php
-                $res2 = mysql_query($sql2,$conn) or die("接続エラー2");
+                $res2 = mysql_query($conn,$sql2) or die("接続エラー2");
     	        $Count = 0;
     	        while($row2 = mysql_fetch_array($res2)){
                     $sql_q = "select Sentence from question_info where WID =".$row2["WID"];
-                    $res_q = mysql_query($sql_q,$conn) or die("接続エラーq");
+                    $res_q = mysql_query($conn,$sql_q) or die("接続エラーq");
                     $row_q = mysql_fetch_array($res_q);
                     $QuesName[$Count] = $row2["WID"].":".$row_q["Sentence"];
   	 		        $QuesID[$Count] = $row2["WID"];
@@ -867,12 +978,12 @@ ChangeTab('tab1');
     <SELECT NAME="datalist" SIZE=30  style="width:300px">
     <?php
         echo "sql3:".$sql3."<br>";
-	    $res3 = mysql_query($sql3,$conn) or die("接続エラー3");
+	    $res3 = mysql_query($conn,$sql3) or die("接続エラー3");
         $Count = 0;
         if($_SESSION["mark"] == "part"){
             while($row3 = mysql_fetch_array($res3)){
                 $sql_point = "select Point from trackdata where UID =".$row3["UID"]." and WID=".$row3["WID"];
-                $res_point = mysql_query($sql_point,$conn) or die("接続エラーq");
+                $res_point = mysql_query($conn,$sql_point) or die("接続エラーq");
                 $row_point = mysql_fetch_array($res_point);
   	            $DataName[$Count] = $row3["UID"]." (".$row3["WID"].") "." ".$row3["Date"]."  ".$row_point["Point"]."点  ".$row3["Time"];
    	            $Pass_ID[$Count] = $row3["UID"].",".$row3["WID"];
@@ -997,7 +1108,7 @@ ChangeTab('tab1');
                 <font size= "1">※対象学習者を選択してください。(複数チェック可)<br><br></font>
                 <?php
                     $student_sql = "select UID from member ORDER BY UID;";
-                    $student_res = mysql_query($student_sql,$conn) or die("接続エラー");
+                    $student_res = mysql_query($conn,$student_sql) or die("接続エラー");
                     $num = 0;
                     //問題情報をテーブルで表示する
                     while ($student_row = mysql_fetch_array($student_res)){
@@ -1015,7 +1126,7 @@ ChangeTab('tab1');
                 <br><br>
             </div>
             <?php
-                if($_SESSION["mark"] == part){
+                if($_SESSION["mark"] == "part"){
             ?>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <?php
@@ -1116,7 +1227,7 @@ ChangeTab('tab1');
                     <font size= "1">※対象問題を選択してください。(複数チェック可)<br><br></font>
                     <?php
                         $sentence_sql = "select WID from question_info ORDER BY WID;";
-                        $sentence_res = mysql_query($sentence_sql,$conn) or die("接続エラー");
+                        $sentence_res = mysql_query($conn,$sentence_sql) or die("接続エラー");
                         $num = 0;
                         //問題情報をテーブルで表示する
                         while ($sentence_row = mysql_fetch_array($sentence_res)){
@@ -1132,7 +1243,7 @@ ChangeTab('tab1');
                             <br><br>
                 </div>
                 <?php
-                if($_SESSION["mark"] == part){
+                if($_SESSION["mark"] == "part"){
                 ?>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php
@@ -1251,7 +1362,7 @@ ChangeTab('tab1');
                     <?php
                     $g_sql = "select Item from grammar ORDER BY GID;";
                     $grammarID = 1;
-                    $g_res = mysql_query($g_sql,$conn) or die("接続エラー");
+                    $g_res = mysql_query($conn,$g_sql) or die("接続エラー");
                     $num = 0;
                     //問題情報をテーブルで表示する
                     while ($g_row = mysql_fetch_array($g_res)){
@@ -1291,7 +1402,7 @@ ChangeTab('tab1');
         <A href="javaScript:treeMenu('treeMenu13')">■ 履歴データ検索</a><br>
         <DIV id="treeMenu13" style="display:none">
             <?php
-                if($_SESSION["mark"] == part){
+                if($_SESSION["mark"] == "part"){
             ?>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
             <?php 

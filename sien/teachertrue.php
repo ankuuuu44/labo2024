@@ -92,24 +92,23 @@
                     }
                 }
 
-
                 // 条件が一つでもあればWHERE句を追加&SQLと条件をsessionに保存
                 if (!empty($conditions)) {
                     $sql .= " WHERE " . join(" AND ", $conditions);
                     $_SESSION['conditions'] = $conditions;
-                    echo "!emptyの条件を満たしています．<br>";
+                    //echo "!emptyの条件を満たしています．<br>";
                 }else{
-                    echo "emptyの条件を満たしていません。<br>";
+                    //echo "emptyの条件を満たしていません。<br>";
                 }
                 // $_SESSION['conditions']が設定されているかどうかを確認します
                 if (isset($_SESSION['conditions']) && !empty($_SESSION['conditions'])) {
-                    echo '$_SESSION["conditions"]が設定されています．<br>';
+                    //echo '$_SESSION["conditions"]が設定されています．<br>';
                     // ここに$_SESSION['conditions']を使用するコードを追加します
                 } else {
-                    echo '$_SESSION["conditions"]は設定されていません．<br>';
+                    //echo '$_SESSION["conditions"]は設定されていません．<br>';
                 }
                 $_SESSION['sql'] = $sql;
-                echo $_SESSION['sql'];
+                //echo $_SESSION['sql'];
                 
                 
 
@@ -145,7 +144,7 @@
                 if ($json_keep_result === false) {
                     echo "エラーが発生しました。ファイルに書き込めませんでした。";
                 } else {
-                    echo "ファイルに書き込みが成功しました。<br>";
+                    //echo "ファイルに書き込みが成功しました。<br>";
                 }
                 $command = "py .\graph_plot.py";
                 $output = shell_exec($command);
@@ -290,7 +289,7 @@
                     $grammarCount[$key]['accuracy'] = round($value['correct'] / $value['total'] * 100,2);
                 }
                 foreach($grammarCount as $key => $value){
-                    echo "key = $key, total = $value[total], correct = $value[correct], incorrect = $value[incorrect], accuracy = $value[accuracy]<br>";
+                    //echo "key = $key, total = $value[total], correct = $value[correct], incorrect = $value[incorrect], accuracy = $value[accuracy]<br>";
                 }
                 // 正解率の低い順（文法項目）に並べ替えるための配列を作成
                 $grammar_TF_with_grammar = [];
@@ -338,7 +337,7 @@
                 // デバッグ用: 抽出した下位5件を出力
                 foreach ($lowest_accuracy_grammar as $key => $value) {
                     $grammar_label = isset($key_label_map[$value['grammar']]) ? $key_label_map[$value['grammar']] : 'Unknown';
-                    echo "key = $key, grammar = $grammar_label, total = {$value['total']}, correct = {$value['correct']}, incorrect = {$value['incorrect']}, accuracy = {$value['accuracy']}<br>";
+                    //echo "key = $key, grammar = $grammar_label, total = {$value['total']}, correct = {$value['correct']}, incorrect = {$value['incorrect']}, accuracy = {$value['accuracy']}<br>";
                 }
                 // $user_accuracyをJSONにエンコード
                 $json_data_allacu = json_encode($accuracy_grammar, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -351,7 +350,7 @@
                 if ($json_keep_result_allacu === false) {
                     //echo "エラーが発生しました。ファイルに書き込めませんでした。";
                 } else {
-                    echo "ファイルに書き込みが成功しました。<br>";
+                    //echo "ファイルに書き込みが成功しました。<br>";
                 }
                 $studentAccuracyJson = json_encode($stu_TF);
                 
@@ -413,12 +412,21 @@
                         const accuracy = data.accuracy;
                         const grammarinfo = data.grammarinfo;
 
+
                         const answerListElement = document.getElementById('ques-list');
                         answerListElement.innerHTML = ''; // 既存の内容をクリア
                         answers.forEach(answer => {
                             const option = document.createElement('option');
                             option.value = answer.WID;
                             option.textContent = answer.WID;
+                            if(answer.TF == '1'){
+                                option.textContent = option.textContent + ' : ' + '〇';
+                            }else{
+                                option.textContent = option.textContent + ' : ' + '×';
+                            }
+                            option.textContent = option.textContent + ' : ' + answer.Sentence
+                            const grammarItems = Object.values(answer.grammarJapanese).join(', ');
+                            option.textContent = option.textContent + ' : ' + grammarItems
                             answerListElement.appendChild(option);
                         });
                         displayQuescount(ques_count);
@@ -446,7 +454,7 @@
                     const grammarArray = Object.keys(grammarinfo).map(key => {
                         return { grammar: key, ...grammarinfo[key] };
                     });
-                    console.log(grammarArray);
+                    //console.log(grammarArray);
                     // grammaraccuracyで昇順に並べ替え
                     grammarArray.sort((a, b) => a.grammaraccuracy - b.grammaraccuracy);
                     //水平棒グラフ作成のために配列を関数に送る
@@ -457,6 +465,7 @@
                     // 行を追加
                     top5.forEach((info, index) => {
                         const row = document.createElement('tr');
+                        row.dataset.grammar = info.grammar; // データ属性として文法項目を保存
 
                         const cellRank = document.createElement('td');
                         cellRank.textContent = index + 1;
@@ -470,9 +479,57 @@
                         cellAccuracy.textContent = `${info.grammaraccuracy}%`;
                         row.appendChild(cellAccuracy);
 
+                        row.addEventListener('click', function() {
+                            updateSelectQues(this.dataset.grammar); // クリック時に文法項目を引数として関数を実行
+                            //console.log(this.dataset.grammar);
+                        });
+
                         miss_grammar.appendChild(row);
                     });
                 }
+
+                function updateSelectQues(selectedGrammar) {
+                    const selectElement = document.getElementById('learner-list');
+                    const selectedUID = selectElement.value;
+                    
+                    const select = document.getElementById('ques-list');
+                    select.innerHTML = ''; // 既存の内容をクリア
+
+                    
+                    fetch('fetch_ques_list.php?uid=' + selectedUID + '&grammar=' + selectedGrammar)
+                    .then(response => response.json())
+                    .then(data => {
+                        const answers = data.answers;
+                        const ques_count = data.datacount;
+                        const accuracy = data.accuracy;
+                        const grammarinfo = data.grammarinfo;
+                        const grammarnumber = data.grammarnumber;
+                        console.log(grammarnumber);
+
+                        const answerListElement = document.getElementById('ques-list');
+                        answerListElement.innerHTML = ''; // 既存の内容をクリア
+                        answers.forEach(answer => {
+                            const option = document.createElement('option');
+                            option.value = answer.WID;
+                            option.textContent = answer.WID
+                            if(answer.TF == '1'){
+                                option.textContent = option.textContent + ' : ' + '〇';
+                            }else{
+                                option.textContent = option.textContent + ' : ' + '×';
+                            }
+                            option.textContent = option.textContent + ' : ' + answer.Sentence
+                            const grammarItems = Object.values(answer.grammarJapanese).join(', ');
+                            option.textContent = option.textContent + ' : ' + grammarItems
+                            answerListElement.appendChild(option);
+                        });
+                        displayQuescount(ques_count);
+                        displayAccuracy(accuracy);
+                        missGrammarElement(grammarinfo);
+                    })
+                    .catch(error => console.error(error));
+                    
+                }
+                
                 function fetchQuesinfo(selectedWID, selectedUID) {
                     fetch('fetch_ques_info.php?wid=' + selectedWID + '&uid=' + selectedUID)
                     .then(response => response.json())
@@ -496,8 +553,8 @@
                     const ctx = document.getElementById('stu-accuracy-grammar').getContext('2d');
                     const labels = grammarArray.map(item => item.grammarjapanese);
                     const data = grammarArray.map(item => item.grammaraccuracy);
-                    console.log("labels: " + labels);
-                    console.log("data: " + data);
+                    //console.log("labels: " + labels);
+                    //console.log("data: " + data);
                     // 既存のチャートがある場合は破棄する
                     if (chartInstance) {
                         chartInstance.destroy();
@@ -725,7 +782,7 @@
                         </div>
                     </div>
                     <div class = "overview-contents">
-                        <h1>ここはサンプル置き場</h1>
+                        <!--<h1>ここはサンプル置き場</h1>-->
                     </div>
                 
             </section>
@@ -873,7 +930,7 @@
                     /*
                     document.addEventListener('DOMContentLoaded', function() {
                         //PHPのデータをパース
-                        var studentAccuracy = <?php echo $studentAccuracyJson; ?>;
+                        var studentAccuracy = <?php //echo $studentAccuracyJson; ?>;
                         //データをChart.js用に変換
                         var labels = [];
                         var data = [];
@@ -882,7 +939,7 @@
                             labels.push(UID);
                             data.push(studentAccuracy[UID].accuracy);
                         }
-                        var avg = <?php echo $aveaccuracy; ?>;
+                        var avg = <?php //echo $aveaccuracy; ?>;
                         console.log(avg);
                         var averageLinePlugin = {
                             id: 'averageLine',

@@ -210,19 +210,30 @@
     ?>
 
     <?php
+    //print_r($_POST["datalist"]);    
     //uid,widを受け取る
-    $data_list = array();
-    $data_list = $_POST["datalist"];
-    echo $data_list."<br>";
-    //受け取ったものをコンマで区切る
-    $ID = array();
-    $ID = explode(",",$data_list);
-    //各データを変数に格納
-    $uid = $ID[0];
-    $wid = $ID[1];
-    if($data_list==""){
+    $data_list = "";
+
+    // POSTで受け取ったデータの処理
+    if (isset($_POST["datalist"])) {
+        $data_list = $_POST["datalist"];
+        echo $data_list."<br>";
+
+        // 受け取ったものをコンマで区切る
+        $ID = explode(",", $data_list);
+
+        // 各データを変数に格納
+        $uid = $ID[0];
+        $wid = $ID[1];
+
+    } elseif (isset($_GET["UID"]) && isset($_GET["WID"])) {
+        // GETで受け取ったデータの処理（デフォルトのケース）
         $uid = $_GET["UID"];
         $wid = $_GET["WID"];
+    } else {
+        // エラーメッセージ
+        $uid = 30914025;
+        $wid = 22;
     }
     // データベースから値を取り出す
     $query = "select distinct(Time),X,Y,DD,DPos,hLabel,Label,UTurnX,UTurnY from linedatamouse where uid = $uid and WID = $wid order by Time";

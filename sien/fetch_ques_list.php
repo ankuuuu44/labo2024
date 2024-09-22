@@ -1,15 +1,28 @@
 <?php
     require "dbc.php";
     $uid = $_GET['uid'];
+    if(isset($_GET['uid']) && isset($_GET['grammar'])) {
+        $grammarnumber = $_GET['grammar'];
+        $sql = "SELECT linedata.TF, linedata.Understand, question_info.WID, question_info.Sentence, question_info.grammar, linedata.Time FROM linedata
+                INNER JOIN question_info ON linedata.WID = question_info.WID 
+                WHERE linedata.UID = ? AND question_info.grammar LIKE ?";
 
-    $sql = "SELECT linedata.TF,linedata.Understand,question_info.WID,question_info.Sentence,question_info.grammar FROM linedata 
-            INNER JOIN question_info ON linedata.WID = question_info.WID 
-            WHERE linedata.UID = ?";
+        $stmt = $conn->prepare($sql);
+        $likeGrammar = '%#' . $grammarnumber . '#%'; // 部分一致のパターンを作成
+        $stmt->bind_param('ss', $uid, $likeGrammar);
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $uid);
+    }else if(isset($_GET['uid']) && !isset($_GET['grammar'])) {
+        $grammarnumber = "うぇい";
+        $sql = "SELECT linedata.TF,linedata.Understand,question_info.WID,question_info.Sentence,question_info.grammar, linedata.Time FROM linedata 
+        INNER JOIN question_info ON linedata.WID = question_info.WID 
+        WHERE linedata.UID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $uid);
+    }
+    
+
     $stmt->execute();
-    $stmt->bind_result($TF,$Understand,$WID, $Sentence, $grammar);
+    $stmt->bind_result($TF,$Understand,$WID, $Sentence, $grammar, $Time);
     $answers = [];
     $datacount = 0; // $datacountを初期化
     $accuracy = 0;
@@ -43,12 +56,13 @@
     while ($stmt->fetch()) {
         //問題ごとの情報を取得
         $datacount += 1;
-        $answers[] = [
+        $answer = [
             'WID' => $WID,
             'TF' => $TF,
             'Understand' => $Understand,
             'grammar' => $grammar,
-            'Sentence' => $Sentence
+            'Sentence' => $Sentence,
+            'Time' => $Time
         ];
         if($TF == 1){
             $countT += 1;
@@ -60,6 +74,12 @@
         $grammarItems = array_filter(explode("#", $grammar), function($value) {
             return $value !== '';
         });
+        $mappedGrammarItems = array_map(function($item) use ($key_label_map) {
+            return isset($key_label_map[$item]) ? $key_label_map[$item] : "不明";
+        }, $grammarItems);
+        $answer['grammarJapanese'] = $mappedGrammarItems;
+         // answerをanswersに追加
+        $answers[] = $answer;
         foreach ($grammarItems as $value) {
             if (!isset($grammarCount[$value])) {
                 // キーが存在しない場合、新しい配列を作成
@@ -96,5 +116,6 @@
         'answers' => $answers,
         'datacount' => $datacount,
         'accuracy' => $accuracy,
-        'grammarinfo' => $grammarCount
+        'grammarinfo' => $grammarCount,
+        'grammarnumber' => $grammarnumber
     ]);

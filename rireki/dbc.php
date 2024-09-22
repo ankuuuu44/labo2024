@@ -8,8 +8,10 @@ mb_internal_encoding("utf-8"); //冁E��斁E��コードを変更
 mb_http_input("S");
 mb_http_output("utf-8");
 $dbnl="2019su1";  //研究室	
+if(isset($_SESSION["examflag"])){
+    $examflag = $_SESSION["examflag"];
+}
 
-$examflag = $_SESSION["examflag"];
 $dbname = $dbnl;
 $sv = "127.0.0.1";//研究室グルーバル�E��E� ローカル⇒グローバル接続�E時使用
 $user = "root"; //サーチE

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../teachertrue_styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <script src="../quesmove.js"></script>
+    <script src="../multimove.js"></script>
 </head>
 <body>
     <?php
@@ -603,7 +603,7 @@
                         <h2>学習者分析</h2>
                     </div>
                     <div class="select-container" id = "select-learner">
-                        <select id="learner-list">
+                        <select id="multi-learner-list" multiple>
                             <option value=""  disabled selected>学習者一覧</option>
                             <!-- ここに学習者のリストを動的に追加 -->
                         </select>
@@ -827,61 +827,8 @@
                     </form>
                 </div>
             </div>
-
             <section class="weak-areas">
-
                 <h2>苦手分野</h2>
-                <div class = "subcontent" id = "max-size-chart">
-                <canvas id="myHistogram"></canvas>
-                </div>
-    <script>
-        // ランダムなデータセットを生成 (0から100までの範囲)
-        const data = Array.from({length: 100}, () => Math.floor(Math.random() * 101));
-
-        // データをヒストグラム用にバケットに分類
-        const bins = 10; // バケット数
-        const histogramData = new Array(bins).fill(0);
-        data.forEach(value => {
-            const index = Math.floor(value / (100 / bins));
-            histogramData[index] += 1;
-        });
-
-        // バケットのラベルを生成
-        const labels = Array.from({length: bins}, (_, i) => `${i * (100 / bins)}-${(i + 1) * (100 / bins) - 1}%`);
-
-        // Chart.jsを使用してヒストグラムを描画
-        const ctx = document.getElementById('myHistogram').getContext('2d');
-        const myHistogram = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Data Count',
-                    data: histogramData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Percentage (%)'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Data Count'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
                 <div class = "row-content">
                     <div class = "content">
                         <h4>難易度ごとの正答率</h4>
